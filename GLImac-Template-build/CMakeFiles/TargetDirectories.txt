@@ -1,0 +1,2 @@
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/TP_Projet/CMakeFiles/TP_Projet_Alice.dir
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac/CMakeFiles/glimac.dir

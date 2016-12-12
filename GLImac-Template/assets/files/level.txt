@@ -1,0 +1,6 @@
+#Alice returns
+level.ppm
+1
+1:3:2:armureTropCool:1:10:tresor.obj
+1
+1:7:4:monstre:1:15:5:40:montre.obj
