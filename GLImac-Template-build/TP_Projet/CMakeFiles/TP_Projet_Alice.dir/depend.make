@@ -8,6 +8,7 @@ TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Document
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Hero.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Image.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Monster.hpp
+TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Object.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Program.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/SDLWindowManager.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/SceneOpenGL.hpp

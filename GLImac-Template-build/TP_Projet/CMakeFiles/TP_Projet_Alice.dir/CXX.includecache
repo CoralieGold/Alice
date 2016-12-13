@@ -11,7 +11,7 @@ glimac/SDLWindowManager.hpp
 -
 glimac/common.hpp
 -
-glimac/Sphere.hpp
+glimac/Object.hpp
 -
 glimac/Cube.hpp
 -
@@ -47,6 +47,10 @@ glm.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Hero.hpp
 string
 -
+iostream
+-
+Treasure.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Treasure.hpp
 FreeflyCamera.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/FreeflyCamera.hpp
 
@@ -64,6 +68,14 @@ FilePath.hpp
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Monster.hpp
 string
+-
+
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Object.hpp
+glm.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/glm.hpp
+string
+-
+vector
 -
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Program.hpp
@@ -105,6 +117,10 @@ Monster.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Monster.hpp
 Hero.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Hero.hpp
+Cube.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Cube.hpp
+Sphere.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Sphere.hpp
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Shader.hpp
 GL/glew.h
@@ -122,6 +138,8 @@ common.hpp
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Treasure.hpp
 string
+-
+iostream
 -
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp

@@ -12,6 +12,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/glimac.dir/src/TrackballCamera.cpp.o"
   "CMakeFiles/glimac.dir/src/Shader.cpp.o"
   "CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o"
+  "CMakeFiles/glimac.dir/src/Object.cpp.o"
   "CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o"
   "CMakeFiles/glimac.dir/src/Monster.cpp.o"
   "libglimac.pdb"

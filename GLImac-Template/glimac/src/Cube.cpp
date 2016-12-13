@@ -51,58 +51,58 @@ namespace glimac {
 	    taille /= 2;
 
 	    // FACE 1
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, -taille), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.000059f, 1.0f-0.000004f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, -taille), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.000103f, 1.0f-0.336048f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, -taille), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.335973f, 1.0f-0.335903f)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, -taille), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, -taille), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, -taille), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1, 1)));
 
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, -taille), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.000023f, 1.0f-0.000013f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, -taille), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.667979f, 1.0f-0.335851f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, -taille), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.999958f, 1.0f-0.336064f)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, -taille), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, -taille), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0, 1)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, -taille), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1, 1)));
 
 	   	// FACE 2
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, taille), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.667979f, 1.0f-0.335851f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, -taille), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.336024f, 1.0f-0.671877f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, -taille), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.667969f, 1.0f-0.671889f)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, taille), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, -taille), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, -taille), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1, 1)));
 
-		m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, taille), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.000023f, 1.0f-0.000013f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, taille), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.668104f, 1.0f-0.000013f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, -taille), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.667979f, 1.0f-0.335851f)));	
+		m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, taille), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, taille), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0, 1)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, -taille), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1, 1)));	
 
 		// FACE 3
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, taille), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.000059f, 1.0f-0.000004f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, taille), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.335973f, 1.0f-0.335903f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, -taille), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.336098f, 1.0f-0.000071f)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, taille), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, taille), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, -taille), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1, 1)));
 
-		m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, taille), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.667979f, 1.0f-0.335851f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, -taille), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.335973f, 1.0f-0.335903f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, -taille), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.336024f, 1.0f-0.671877f)));		        
+		m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, taille), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, -taille), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0, 1)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, -taille), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1, 1)));		        
 
 		// FACE 4
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, taille), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.000004f, 1.0f-0.671847f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, taille), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.999958f, 1.0f-0.336064f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, taille), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.667979f, 1.0f-0.335851f)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, taille), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, -taille, taille), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, taille), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1, 1)));
 
-		m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, taille), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.668104f, 1.0f-0.000013f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, taille), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.335973f, 1.0f-0.335903f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, taille), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.667979f, 1.0f-0.335851f)));	
+		m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, taille), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, taille), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0, 1)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, taille), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1, 1)));	
 
 	   	// FACE 5
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, -taille), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.335973f, 1.0f-0.335903f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, taille), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.668104f, 1.0f-0.000013f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, taille), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.336098f, 1.0f-0.000071f)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, -taille), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, taille), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, taille), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1, 1)));
 
-		m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, -taille), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.000103f, 1.0f-0.336048f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, -taille), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.000004f, 1.0f-0.671870f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, taille), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.336024f, 1.0f-0.671877f)));	
+		m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, -taille, -taille), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, -taille), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0, 1)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, taille), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1, 1)));	
 
 	   	// FACE 6
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, taille), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.000103f, 1.0f-0.336048f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, taille), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.336024f, 1.0f-0.671877f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, -taille), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.335973f, 1.0f-0.335903f)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, taille), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, taille), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, -taille), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1, 1)));
 
-		m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, taille), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.667969f, 1.0f-0.671889f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, -taille), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.000004f, 1.0f-0.671847f)));
-	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, -taille), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.667979f, 1.0f-0.335851f)));	
+		m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, taille), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0, 0)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(-taille, taille, -taille), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0, 1)));
+	    m_Vertices.push_back(ShapeVertex(glm::vec3(taille, taille, -taille), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1, 1)));	
 
 	    m_nVertexCount = 36;
 

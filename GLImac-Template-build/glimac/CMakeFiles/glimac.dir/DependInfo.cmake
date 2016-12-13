@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Hero.cpp" "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac/CMakeFiles/glimac.dir/src/Hero.cpp.o"
   "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Image.cpp" "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac/CMakeFiles/glimac.dir/src/Image.cpp.o"
   "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Monster.cpp" "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac/CMakeFiles/glimac.dir/src/Monster.cpp.o"
+  "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Object.cpp" "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac/CMakeFiles/glimac.dir/src/Object.cpp.o"
   "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Program.cpp" "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac/CMakeFiles/glimac.dir/src/Program.cpp.o"
   "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/SDLWindowManager.cpp" "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac/CMakeFiles/glimac.dir/src/SDLWindowManager.cpp.o"
   "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/SceneOpenGL.cpp" "/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o"

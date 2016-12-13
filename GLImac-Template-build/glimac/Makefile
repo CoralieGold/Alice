@@ -284,6 +284,30 @@ src/Monster.cpp.s:
 	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Monster.cpp.s
 .PHONY : src/Monster.cpp.s
 
+src/Object.o: src/Object.cpp.o
+.PHONY : src/Object.o
+
+# target to build an object file
+src/Object.cpp.o:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Object.cpp.o
+.PHONY : src/Object.cpp.o
+
+src/Object.i: src/Object.cpp.i
+.PHONY : src/Object.i
+
+# target to preprocess a source file
+src/Object.cpp.i:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Object.cpp.i
+.PHONY : src/Object.cpp.i
+
+src/Object.s: src/Object.cpp.s
+.PHONY : src/Object.s
+
+# target to generate assembly for a file
+src/Object.cpp.s:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Object.cpp.s
+.PHONY : src/Object.cpp.s
+
 src/Program.o: src/Program.cpp.o
 .PHONY : src/Program.o
 
@@ -506,6 +530,9 @@ help:
 	@echo "... src/Monster.o"
 	@echo "... src/Monster.i"
 	@echo "... src/Monster.s"
+	@echo "... src/Object.o"
+	@echo "... src/Object.i"
+	@echo "... src/Object.s"
 	@echo "... src/Program.o"
 	@echo "... src/Program.i"
 	@echo "... src/Program.s"

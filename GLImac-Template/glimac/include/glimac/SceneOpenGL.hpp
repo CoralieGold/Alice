@@ -17,6 +17,8 @@
 #include "Treasure.hpp"
 #include "Monster.hpp"
 #include "Hero.hpp"
+#include "Cube.hpp"
+#include "Sphere.hpp"
 
 using namespace std;
 
@@ -46,9 +48,28 @@ class SceneOpenGL
     bool readDungeon(string image);
     //void rotateLevel();
 
+    bool canMove(int orientation, int posX, int posY, int action);
+
     int** grid;
     int sizeX;
     int sizeY;
+
+    vector<Treasure> getTreasures();
+    vector<Monster> getMonsters();
+
+    bool isTreasure(int posX, int posY);
+    bool isMonster(int posX, int posY);
+
+    Treasure& getTreasure(int posX, int posY);
+    //Monster getMonster(int posX, int posY);
+
+    void deleteTreasure(int posX, int posY);
+
+    GLuint createVboCube(Cube &cube);
+    GLuint createVboSphere(Sphere &sphere);
+    // void createVboObject(Object &object);
+
+    void createVao(GLuint vbo);
 
     private:
     vector<Treasure> treasures;

@@ -63,7 +63,7 @@ bool SceneOpenGL::readLevel() {
             string posY_string = line.substr(0, pos);
             line = line.substr(pos+1);
             unsigned int posY = atoi(posY_string.c_str());
-            //cout << "position : " << posX << " , " << posY << endl;
+            //cout << "position tresor : " << posX << " , " << posY << endl;
 
             // Name
             pos = line.find(':');
@@ -73,14 +73,16 @@ bool SceneOpenGL::readLevel() {
 
                     // type
                     pos = line.find(':');
-                    string type = line.substr(0, pos);
+                    string type_string = line.substr(0, pos);
                     line = line.substr(pos+1);
+                    int type = atoi(type_string.c_str());
                     //cout << "type : " << type << endl;
 
                     // Feature
                     pos = line.find(':');
-                    string feature = line.substr(0, pos);
+                    string feature_string = line.substr(0, pos);
                     line = line.substr(pos+1);
+                    int feature = atoi(feature_string.c_str());
                     //cout << "feature : " << type << endl;
 
                     // 3D
@@ -90,7 +92,8 @@ bool SceneOpenGL::readLevel() {
                     //cout << "object 3D : " << object << endl;
 
                     treasures.push_back(Treasure(id, posX, posY, name, type, feature, object));
-                    grid[posX][posY] = 7;
+                    grid[posY][posX] = 8;
+                    //cout << treasures[0].getId() << " pos : " << treasures[0].getPosX() << " " << treasures[0].getPosY() << endl; 
                 }
 
                 // nombre trésors
@@ -153,13 +156,13 @@ bool SceneOpenGL::readLevel() {
                     line = line.substr(pos+1);
 
                     monsters.push_back(Monster(id, posX, posY, name, type, attack, defense, life, object));
-                    grid[posX][posY] = 8;
+                    grid[posY][posX] = 7;
                 }
 
                 cout << "Carte chargee : " << endl;
 
-                for(int i = 0; i < 10; i++) {
-                    for(int j = 0; j < 10; j++) {
+                for(int i = 0; i < sizeY; i++) {
+                    for(int j = 0; j < sizeX; j++) {
                         cout << grid[i][j];
                     }
                     cout << "" << endl;
@@ -197,13 +200,13 @@ bool SceneOpenGL::readDungeon(string image){
         string y_string = line.substr(0, pos);
         int y = atoi(y_string.c_str());
 
-        grid = new int*[x];
-        for(int i = 0; i < x; ++i) {
-            grid[i] = new int[y];
-        }
-
         sizeX = x;
         sizeY = y;
+
+        grid = new int*[sizeX];
+        for(int i = 0; i < sizeX; ++i) {
+            grid[i] = new int[sizeY];
+        }
 
         // 255
         getline(file, line);
@@ -212,8 +215,9 @@ bool SceneOpenGL::readDungeon(string image){
         int value;
 
         // map
-        for(int i = 0; i < x; ++i) {
-            for(int j = 0; j < y; ++j) {
+        for(int i = 0; i < sizeY; ++i) {
+            for(int j = 0; j < sizeX; ++j) {
+            
                 getline(file, r);
                 getline(file, g);
                 getline(file, b);
@@ -241,14 +245,228 @@ bool SceneOpenGL::readDungeon(string image){
     file.close();
 }
 
-/*void Hero::rotateLevel() {
-    int gridTmp[sizeX][sizeY];
+vector<Treasure> SceneOpenGL::getTreasures(){
+    return treasures;
+}
 
-    for (int i = 0; i < sizeX; ++i)
-    {
-        for (int j = 0; j < sizeY; ++j)
-        {
-            gridTmp[i][j] = grid[]
+vector<Monster> SceneOpenGL::getMonsters(){
+    return monsters;
+}
+
+
+
+bool SceneOpenGL::canMove(int orientation, int posX, int posY, int action) {
+    switch(orientation) {
+        case 0:
+            // S'il veut aller en avant
+            if(action > 0) {
+                if(posY-1 >= 0) {
+                    if(grid[posY-1][posX] != 1) {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            // S'il veut aller en arrière
+            else if(action < 0) {
+                if(posY+1 < sizeY) {
+                    if(grid[posY+1][posX] != 1) {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+            break;
+        case 90:
+            // S'il veut aller en avant
+            if(action > 0) {
+                if(posX+1 < sizeX) {
+                    if(grid[posY][posX+1] != 1) {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            // S'il veut aller en arrière
+            else if(action < 0) {
+                if(posX-1 >= 0) {
+                    if(grid[posY][posX-1] != 1) {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+            break;
+        case 180:
+            // S'il veut aller en avant
+            if(action > 0) {
+                if(posY+1 < sizeY) {
+                    if(grid[posY+1][posX] != 1) {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            // S'il veut aller en arrière
+            else if(action < 0) {
+                if(posY-1 >= 0) {
+                    if(grid[posY-1][posX] != 1) {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+            break;
+        case 270:
+            // S'il veut aller en avant
+            if(action > 0) {
+                if(posX-1 >= 0) {
+                    if(grid[posY][posX-1] != 1) {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            // S'il veut aller en arrière
+            else if(action < 0) {
+                if(posX+1 < sizeX) {
+                    if(grid[posY][posX+1] != 1) {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
+            break;
+        default:
+            return false;
+            break;
+    }
+    //return true;
+}
+
+bool SceneOpenGL::isTreasure(int posX, int posY){
+    bool exist = false;
+    for(unsigned int i = 0; i < treasures.size(); i ++) {
+        //std::cout << treasures[i].getPosX() << ":" << treasures[i].getPosY() << std::endl;
+        if(treasures[i].getPosX() == posX && treasures[i].getPosY() == posY) {
+            exist = true;
+            //std::cout << treasures[i].getPosX() << ": ok " << treasures[i].getPosY() << std::endl;
         }
     }
+    return exist; 
+}
+
+bool SceneOpenGL::isMonster(int posX, int posY){
+    bool exist = false;
+    for(unsigned int i = 0; i < monsters.size(); i ++) {
+        //std::cout << treasures[i].getPosX() << ":" << treasures[i].getPosY() << std::endl;
+        if(monsters[i].getPosX() == posX && monsters[i].getPosY() == posY) {
+            exist = true;
+            //std::cout << treasures[i].getPosX() << ": ok " << treasures[i].getPosY() << std::endl;
+        }
+    }
+    return exist; 
+}
+
+Treasure& SceneOpenGL::getTreasure(int posX, int posY) {
+    for(unsigned int i = 0; i < treasures.size(); i ++) {
+        if(treasures[i].getPosX() == posX && treasures[i].getPosY() == posY) {
+            return treasures[i];
+        }
+    }
+}
+
+void SceneOpenGL::deleteTreasure(int posX, int posY) {
+    for(unsigned int i = 0; i < treasures.size(); i ++) {
+        if(treasures[i].getPosX() == posX && treasures[i].getPosY() == posY) {
+            treasures.erase(treasures.begin() + i);
+        }
+    }
+}
+
+/*Monster SceneOpenGL::getMonster(int posX, int posY) {
+
 }*/
+
+
+GLuint SceneOpenGL::createVboCube(Cube &cube) {
+    // Creation d'un seul VBO
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
+    // A partir de ce point, la variable vbo contient l'identifiant d'une VBO
+
+    /*** Binding du VBO ***/
+
+    // Binding d'un VBO sur la cible GL_ARRAY_BUFFER
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    // On peut à présent modifier le VBO en passant par la cible GL_ARRAY_BUFFER
+
+    /*** Remplir le VBO ***/
+    glBufferData(GL_ARRAY_BUFFER, cube.getVertexCount() * sizeof(ShapeVertex), cube.getDataPointer(), GL_STATIC_DRAW);
+
+    /*** Débinder le VBO ***/
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    return vbo;
+}
+
+GLuint SceneOpenGL::createVboSphere(Sphere &sphere) {
+        // Creation d'un seul VBO
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
+    // A partir de ce point, la variable vbo contient l'identifiant d'une VBO
+
+    /*** Binding du VBO ***/
+
+    // Binding d'un VBO sur la cible GL_ARRAY_BUFFER
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    // On peut à présent modifier le VBO en passant par la cible GL_ARRAY_BUFFER
+
+    /*** Remplir le VBO ***/
+    glBufferData(GL_ARRAY_BUFFER, sphere.getVertexCount() * sizeof(ShapeVertex), sphere.getDataPointer(), GL_STATIC_DRAW);
+
+    /*** Débinder le VBO ***/
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    return vbo;
+}
+
+void SceneOpenGL::createVao(GLuint vbo) {
+    /*** Création du VAO ***/
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+
+    /*** Binding du vao ***/
+    glBindVertexArray(vao);
+
+    /*** Activation des attributs de vertex ***/
+    const GLuint VERTEX_ATTR_POSITION = 0;
+    const GLuint VERTEX_ATTR_NORMAL = 1;
+    const GLuint VERTEX_ATTR_TEXT_COORD = 2;
+    glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
+    glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
+    glEnableVertexAttribArray(VERTEX_ATTR_TEXT_COORD);
+
+
+    /** Rebindage **/
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) 0);
+    glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, normal));
+    glVertexAttribPointer(VERTEX_ATTR_TEXT_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, texCoords));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    /*** Débinding du vao ***/
+    glBindVertexArray(0);
+}

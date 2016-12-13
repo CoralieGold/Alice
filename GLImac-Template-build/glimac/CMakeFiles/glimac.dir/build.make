@@ -348,9 +348,32 @@ glimac/CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o.provides: glimac/CMakeFil
 
 glimac/CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o.provides.build: glimac/CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o
 
+glimac/CMakeFiles/glimac.dir/src/Object.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
+glimac/CMakeFiles/glimac.dir/src/Object.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Object.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/CMakeFiles $(CMAKE_PROGRESS_14)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object glimac/CMakeFiles/glimac.dir/src/Object.cpp.o"
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/Object.cpp.o -c /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Object.cpp
+
+glimac/CMakeFiles/glimac.dir/src/Object.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/glimac.dir/src/Object.cpp.i"
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Object.cpp > CMakeFiles/glimac.dir/src/Object.cpp.i
+
+glimac/CMakeFiles/glimac.dir/src/Object.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/glimac.dir/src/Object.cpp.s"
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Object.cpp -o CMakeFiles/glimac.dir/src/Object.cpp.s
+
+glimac/CMakeFiles/glimac.dir/src/Object.cpp.o.requires:
+.PHONY : glimac/CMakeFiles/glimac.dir/src/Object.cpp.o.requires
+
+glimac/CMakeFiles/glimac.dir/src/Object.cpp.o.provides: glimac/CMakeFiles/glimac.dir/src/Object.cpp.o.requires
+	$(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Object.cpp.o.provides.build
+.PHONY : glimac/CMakeFiles/glimac.dir/src/Object.cpp.o.provides
+
+glimac/CMakeFiles/glimac.dir/src/Object.cpp.o.provides.build: glimac/CMakeFiles/glimac.dir/src/Object.cpp.o
+
 glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/SceneOpenGL.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/CMakeFiles $(CMAKE_PROGRESS_14)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/CMakeFiles $(CMAKE_PROGRESS_15)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o"
 	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o -c /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/SceneOpenGL.cpp
 
@@ -373,7 +396,7 @@ glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o.provides.build: glimac/CMakeF
 
 glimac/CMakeFiles/glimac.dir/src/Monster.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/Monster.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Monster.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/CMakeFiles $(CMAKE_PROGRESS_15)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/CMakeFiles $(CMAKE_PROGRESS_16)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object glimac/CMakeFiles/glimac.dir/src/Monster.cpp.o"
 	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build/glimac && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/Monster.cpp.o -c /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Monster.cpp
 
@@ -409,6 +432,7 @@ glimac_OBJECTS = \
 "CMakeFiles/glimac.dir/src/TrackballCamera.cpp.o" \
 "CMakeFiles/glimac.dir/src/Shader.cpp.o" \
 "CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o" \
+"CMakeFiles/glimac.dir/src/Object.cpp.o" \
 "CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o" \
 "CMakeFiles/glimac.dir/src/Monster.cpp.o"
 
@@ -428,6 +452,7 @@ glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/FreeflyCamera.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/TrackballCamera.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/Shader.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o
+glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/Object.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/Monster.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/build.make
@@ -453,6 +478,7 @@ glimac/CMakeFiles/glimac.dir/requires: glimac/CMakeFiles/glimac.dir/src/FreeflyC
 glimac/CMakeFiles/glimac.dir/requires: glimac/CMakeFiles/glimac.dir/src/TrackballCamera.cpp.o.requires
 glimac/CMakeFiles/glimac.dir/requires: glimac/CMakeFiles/glimac.dir/src/Shader.cpp.o.requires
 glimac/CMakeFiles/glimac.dir/requires: glimac/CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o.requires
+glimac/CMakeFiles/glimac.dir/requires: glimac/CMakeFiles/glimac.dir/src/Object.cpp.o.requires
 glimac/CMakeFiles/glimac.dir/requires: glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o.requires
 glimac/CMakeFiles/glimac.dir/requires: glimac/CMakeFiles/glimac.dir/src/Monster.cpp.o.requires
 .PHONY : glimac/CMakeFiles/glimac.dir/requires

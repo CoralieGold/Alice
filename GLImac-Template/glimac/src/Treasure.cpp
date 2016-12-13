@@ -16,11 +16,11 @@ string Treasure::getName() const {
 	return name;
 }
 
-string Treasure::getType() const {
+int Treasure::getType() const {
 	return type;
 }
 
-string Treasure::getFeature() const {
+int Treasure::getFeature() const {
 	return feature;
 }
 
@@ -44,11 +44,11 @@ void Treasure::setName(const string &value) {
 	name = value;
 }
 
-void Treasure::setType(const string &value) {
+void Treasure::setType(const int &value) {
 	type = value;
 }
 
-void Treasure::setFeature(const string &value) {
+void Treasure::setFeature(const int &value) {
 	feature = value;
 }
 
@@ -56,7 +56,7 @@ void Treasure::setObject(const string &value) {
 	object = value;
 }
 
-void Treasure::setTreasure(const  unsigned int &id, const  unsigned int &posX, const  unsigned int &posY, const  string &name, const  string &type, const  string &feature, const  string &object) {
+void Treasure::setTreasure(const  unsigned int &id, const  unsigned int &posX, const  unsigned int &posY, const  string &name, const  int &type, const  int &feature, const  string &object) {
 	setId(id);
 	setPosX(posX);
 	setPosY(posY);
@@ -66,7 +66,7 @@ void Treasure::setTreasure(const  unsigned int &id, const  unsigned int &posX, c
 	setObject(object);
 }
 
-Treasure::Treasure(unsigned int &id, unsigned int &posX, unsigned int &posY, string &name, string &type, string &feature, string &object) {
+Treasure::Treasure(unsigned int &id, unsigned int &posX, unsigned int &posY, string &name, int &type, int &feature, string &object) {
 	setTreasure(id, posX, posY, name, type, feature, object);
 }
 
