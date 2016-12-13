@@ -29,6 +29,10 @@ iostream
 -
 vector
 -
+stdlib.h
+-
+time.h
+-
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Cube.hpp
 vector
@@ -77,6 +81,8 @@ string
 -
 vector
 -
+common.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Program.hpp
 GL/glew.h
@@ -121,6 +127,8 @@ Cube.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Cube.hpp
 Sphere.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Sphere.hpp
+Object.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Object.hpp
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Shader.hpp
 GL/glew.h

@@ -584,9 +584,9 @@ glimac/CMakeFiles/glimac.dir/src/Monster.cpp.o: /home/6im2/mroche/Documents/Proj
 glimac/CMakeFiles/glimac.dir/src/Monster.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Monster.cpp
 
 glimac/CMakeFiles/glimac.dir/src/Object.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Object.hpp
+glimac/CMakeFiles/glimac.dir/src/Object.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp
 glimac/CMakeFiles/glimac.dir/src/Object.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/glm.hpp
 glimac/CMakeFiles/glimac.dir/src/Object.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Object.cpp
-glimac/CMakeFiles/glimac.dir/src/Object.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/common.hpp
 glimac/CMakeFiles/glimac.dir/src/Object.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/detail/_fixes.hpp
 glimac/CMakeFiles/glimac.dir/src/Object.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/detail/_swizzle.hpp
 glimac/CMakeFiles/glimac.dir/src/Object.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/detail/_swizzle_func.hpp
@@ -782,6 +782,7 @@ glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o: /home/6im2/mroche/Documents/
 glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/FreeflyCamera.hpp
 glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Hero.hpp
 glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Monster.hpp
+glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Object.hpp
 glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/SceneOpenGL.hpp
 glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Sphere.hpp
 glimac/CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Treasure.hpp

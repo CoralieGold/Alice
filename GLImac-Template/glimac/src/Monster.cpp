@@ -36,6 +36,10 @@ string Monster::getObject() const {
 	return object;
 }
 
+int Monster::getOrientation() const {
+	return orientation;
+}
+
 void Monster::setId(const unsigned int &value) {
 	id = value;
 }
@@ -72,6 +76,10 @@ void Monster::setObject(const string &value) {
 	object = value;
 }
 
+void Monster::setOrientation(const int &value) {
+	orientation = value;
+}
+
 void Monster::setMonster(const  unsigned int &id, const  unsigned int &posX, const  unsigned int &posY, const  string &name, const  string &type, const int &attack, const int &defense, const unsigned int &life, const  string &object) {
 	setId(id);
 	setPosX(posX);
@@ -90,3 +98,21 @@ Monster::Monster(unsigned int &id, unsigned int &posX, unsigned int &posY, strin
 
 Monster::~Monster(){}
 
+void Monster::move() {
+	switch(orientation) {
+		case 0:
+			posY --;
+			break;
+		case 90:
+			posX ++;
+			break;
+		case 180:
+			posY ++;
+			break;
+		case 270:
+			posX --;
+			break;
+		default:
+			break;
+	}
+}

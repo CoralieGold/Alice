@@ -3,10 +3,7 @@
 
 namespace glimac {
 
-bool loadObject(const char* filepath,
-    std::vector < glm::vec3 > & out_vertices,
-    std::vector < glm::vec2 > & out_uvs,
-    std::vector < glm::vec3 > & out_normals) {
+bool Object::loadObject() {
 
 
     std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
@@ -64,20 +61,28 @@ bool loadObject(const char* filepath,
             normalIndices.push_back(normalIndex[2]);
         }
         // For each vertex of each triangle
-        for( unsigned int i=0; i < vertexIndices.size(); i++ ){
-            unsigned int vertexIndex = vertexIndices[i];
-            glm::vec3 vertex = temp_vertices[ vertexIndex-1 ];
-            out_vertices.push_back(vertex);
-        }
 
     }
+    cout << vertexIndices.size() << endl;
+    for( unsigned int i=0; i < temp_vertices.size(); i+=1){
+        cout << temp_vertices[i].x << " " << temp_vertices[i].y << " " << temp_vertices[i].z << endl;
+    }
+    for( unsigned int i=0; i < vertexIndices.size(); i+=1){
+        cout << vertexIndices[i] << endl;
+        ShapeVertex v(temp_vertices[vertexIndices[i]],
+                      temp_normals[normalIndices[i]],
+                      temp_uvs[uvIndices[i]]
+                     );
+        vertex.push_back(v);
+        /*unsigned int vertexIndex = vertexIndices[i];
+        glm::vec3 vertex = temp_vertices[ vertexIndex-1 ];
+        out_vertices.push_back(vertex);*/
+    }
 
+}
 
-
-
-
-
-
+Object::Object(const char* n_filepath) {
+    filepath = n_filepath;
 }
 
 }

@@ -3,15 +3,21 @@
 #include "glm.hpp"
 #include <string>
 #include <vector>
+#include "common.hpp"
 
 using namespace std;
 namespace glimac {
 
+class Object {
 
-	bool loadObject(const char* filepath,
-    std::vector < glm::vec3 > & out_vertices,
-    std::vector < glm::vec2 > & out_uvs,
-    std::vector < glm::vec3 > & out_normals);
+public:
+    bool loadObject();
+    Object(const char* filepath);
+
+    const char* filepath;
+    std::vector < ShapeVertex> vertex;
+};
+
 
 
 }

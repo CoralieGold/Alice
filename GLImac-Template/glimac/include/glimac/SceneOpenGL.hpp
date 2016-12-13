@@ -19,6 +19,9 @@
 #include "Hero.hpp"
 #include "Cube.hpp"
 #include "Sphere.hpp"
+#include "Object.hpp"
+
+#define MONSTERS_SPEED 50
 
 using namespace std;
 
@@ -50,12 +53,10 @@ class SceneOpenGL
 
     bool canMove(int orientation, int posX, int posY, int action);
 
-    int** grid;
-    int sizeX;
-    int sizeY;
+    
 
     vector<Treasure> getTreasures();
-    vector<Monster> getMonsters();
+    vector<Monster*> getMonsters();
 
     bool isTreasure(int posX, int posY);
     bool isMonster(int posX, int posY);
@@ -67,13 +68,20 @@ class SceneOpenGL
 
     GLuint createVboCube(Cube &cube);
     GLuint createVboSphere(Sphere &sphere);
-    // void createVboObject(Object &object);
+    GLuint createVboObject(Object &object);
 
     void createVao(GLuint vbo);
 
+    bool monsterSeeHero(Monster m, Hero a);
+    bool monsterNextToHero(Monster m, Hero a);
+
+    int** grid;
+    int sizeX;
+    int sizeY;
+
     private:
     vector<Treasure> treasures;
-    vector<Monster> monsters;
+    vector<Monster*> monsters;
 
 
 };

@@ -102,7 +102,7 @@ void Hero::down() {
 		default:
 			break;
 	}
-	std::cout << "Position actuelle x:y : " << posX << " : " << posY << std::endl;
+	//std::cout << "Position actuelle x:y : " << posX << " : " << posY << std::endl;
 	//std::cout << "Orientation : " << orientation << std::endl;
 }
 
@@ -124,7 +124,7 @@ void Hero::up() {
 		default:
 			break;
 	}
-	std::cout << "Position actuelle x:y : " << posX << " : " << posY << std::endl;
+	//std::cout << "Position actuelle x:y : " << posX << " : " << posY << std::endl;
 	//std::cout << "Orientation : " << orientation << std::endl;
 }
 
@@ -132,7 +132,7 @@ void Hero::left() {
 	camera.rotateLeft(90);
 	orientation -= 90;
 	if(orientation < 0) orientation = 270;
-	std::cout << "Position actuelle x:y : " << posX << " : " << posY << std::endl;
+	//std::cout << "Position actuelle x:y : " << posX << " : " << posY << std::endl;
 	//std::cout << "Orientation : " << orientation << std::endl;
 }
 
@@ -141,7 +141,7 @@ void Hero::right() {
 	orientation += 90;
 	
 	if(orientation >= 360) orientation = 0;
-	std::cout << "Position actuelle x:y : " << posX << " : " << posY << std::endl;
+	//std::cout << "Position actuelle x:y : " << posX << " : " << posY << std::endl;
 	//std::cout << "Orientation : " << orientation << std::endl;
 }
 

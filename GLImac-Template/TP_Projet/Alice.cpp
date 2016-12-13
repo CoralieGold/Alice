@@ -10,6 +10,9 @@
 #include <iostream>
 #include <vector>
 
+#include <stdlib.h>
+#include <time.h>
+
 using namespace glimac;
 using namespace std;
 
@@ -30,6 +33,8 @@ int main(int argc, char** argv) {
     /*********************************
      * HERE SHOULD COME THE INITIALIZATION CODE
      *********************************/
+
+    int timer = 0;
 
     // Initialisation de la scene opengl
     SceneOpenGL scene = SceneOpenGL();
@@ -96,16 +101,8 @@ int main(int argc, char** argv) {
     alice.getCamera().rotateLeft(alice.getOrientation());
    // cout << "Alice caméra : " << alice.getCamera().getViewMatrix().x << endl;
 
-    // Read our .obj file
-    std::vector< glm::vec3 > verticesObj;
-    std::vector< glm::vec2 > uvsObj;
-    std::vector< glm::vec3 > normalsObj; // Won't be used at the moment.
-
-    //loadObject("/home/6im2/mroche/Documents/SyntheseImage/GLImac-Template/assets/models/test2.obj", verticesObj, uvsObj, normalsObj);
-
-
     /** Texture mur **/
-    std::unique_ptr<Image> murImage = loadImage("/home/6im2/mroche/Documents/SyntheseImage/GLImac-Template/assets/textures/EarthMap.jpg");
+    std::unique_ptr<Image> murImage = loadImage("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Feuilles.jpg");
     if(murImage != NULL) std::cout << "La texture des murs est bien chargée !" << std::endl;
     GLuint textureMur;
     glGenTextures(1, &textureMur);
@@ -118,7 +115,7 @@ int main(int argc, char** argv) {
     glBindTexture(GL_TEXTURE_2D, 0);
 
     /** Texture autre (test) **/
-    std::unique_ptr<Image> testImage = loadImage("/home/6im2/mroche/Documents/SyntheseImage/GLImac-Template/assets/textures/MoonMap.jpg");
+    std::unique_ptr<Image> testImage = loadImage("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/MoonMap.jpg");
     if(testImage != NULL) std::cout << "La texture de test est bien chargée !" << std::endl;
     
     GLuint textureTest;
@@ -130,6 +127,9 @@ int main(int argc, char** argv) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glBindTexture(GL_TEXTURE_2D, 0);
+
+
+
 
 
     int uTexture;
@@ -192,6 +192,31 @@ int main(int argc, char** argv) {
 
 
 
+    // Read our .obj file
+    Object cone("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/models/coneText.obj");
+    cone.loadObject();
+
+
+    /*** Création du VAO ***/
+    GLuint vaoCone;
+    glGenVertexArrays(1, &vaoCone);
+    /*** Binding du vao ***/
+    glBindVertexArray(vaoCone);
+    /*** Activation des attributs de vertex ***/
+    glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
+    glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
+    glEnableVertexAttribArray(VERTEX_ATTR_TEXT_COORD);
+    /** Rebindage **/
+    glBindBuffer(GL_ARRAY_BUFFER, scene.createVboObject(cone));
+    glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) 0);
+    glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, normal));
+    glVertexAttribPointer(VERTEX_ATTR_TEXT_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, texCoords));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    /*** Débinding du vao ***/
+    glBindVertexArray(0);
+
+
+
 
     // activation test profondeur GPU
     glEnable(GL_DEPTH_TEST); 
@@ -205,6 +230,10 @@ int main(int argc, char** argv) {
     ProjMatrix = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
     MVMatrix = glm::translate(MVMatrix, glm::vec3(0.,0.,-5.0));
     NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
+
+    srand(time(NULL));
+
+    int randomOrientation;
 
 
     // Application loop:
@@ -231,9 +260,9 @@ int main(int argc, char** argv) {
                                 cout << "Tresor applique !" << endl;
                             }
                             // prendre en compte si trésor ET monstre sur la meme case
-                            if(scene.isMonster(alice.getPosX(), alice.getPosY())) {
-                                cout << "Il y a un monstre !" << endl;
-                            }
+                            // if(scene.isMonster(alice.getPosX(), alice.getPosY())) {
+                            //     cout << "Il y a un monstre !" << endl;
+                            // }
                         break;
                         case SDLK_UP :
                         case SDLK_z :
@@ -247,9 +276,9 @@ int main(int argc, char** argv) {
                                 cout << "Tresor applique !" << endl;
                             }
                             // prendre en compte si trésor ET monstre sur la meme case
-                            if(scene.isMonster(alice.getPosX(), alice.getPosY())) {
-                                cout << "Il y a un monstre !" << endl;
-                            }
+                            // if(scene.isMonster(alice.getPosX(), alice.getPosY())) {
+                            //     cout << "Il y a un monstre !" << endl;
+                            // }
                         break;
                         case SDLK_LEFT :
                         case SDLK_q :
@@ -291,6 +320,39 @@ int main(int argc, char** argv) {
         /*********************************
          * HERE SHOULD COME THE RENDERING CODE
          *********************************/
+        timer ++;
+        if(timer%MONSTERS_SPEED == 0) {
+            for(unsigned int i = 0; i < scene.getMonsters().size(); i ++) {
+                if(scene.monsterSeeHero(*scene.getMonsters()[i], alice)) {
+                    if(scene.monsterNextToHero(*scene.getMonsters()[i], alice)) {
+                        cout << "A l'attaque !" << endl;
+                    }
+                    else {
+                        scene.getMonsters()[i]->move();
+                        cout << "Je me rapproche !" << endl; 
+                    }
+                    
+                }
+                else {
+                    if(scene.canMove(scene.getMonsters()[i]->getOrientation(), scene.getMonsters()[i]->getPosX(), scene.getMonsters()[i]->getPosY(), 1)) {
+                        scene.getMonsters()[i]->move();
+                    }
+                    else {
+                        // regarder si un mur est libre (droite ou gauche selon aléatoire)
+                        randomOrientation = rand() % 2;
+                        if(randomOrientation == 1){
+                            scene.getMonsters()[i]->setOrientation(scene.getMonsters()[i]->getOrientation() + 90);
+                            if(scene.getMonsters()[i]->getOrientation() >= 360) scene.getMonsters()[i]->setOrientation(0);
+                        }else{
+                            scene.getMonsters()[i]->setOrientation(scene.getMonsters()[i]->getOrientation() - 90);
+                            if(scene.getMonsters()[i]->getOrientation() < 0) scene.getMonsters()[i]->setOrientation(270);
+                        }
+                        
+                    }
+                }
+
+            }
+        }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -344,16 +406,15 @@ int main(int argc, char** argv) {
                 }
                 else if(scene.isTreasure(j, i)) {
                     glBindTexture(GL_TEXTURE_2D, textureTest);
-                    glUniform1i(glGetUniformLocation(program.getGLId(), "uTexture"), 0);
-
-                    glBindVertexArray(vao2);
+                    glBindVertexArray(vaoCone);
 
                     MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, 0, i));
+                    MVMatrix = glm::scale(MVMatrix, glm::vec3(0.1, 0.1, 0.1));
                     MVMatrix = viewMatrix * MVMatrix;
                     glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
                     glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
                     glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-                    glDrawArrays(GL_TRIANGLES, 0, sphere.getVertexCount());
+                    glDrawArrays(GL_TRIANGLES, 0, cone.vertex.size());
 
                     glBindVertexArray(0);
 

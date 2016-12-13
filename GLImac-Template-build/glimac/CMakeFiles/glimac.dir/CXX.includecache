@@ -6,13 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Cube.hpp
-vector
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Object.hpp
+glm.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/glm.hpp
+string
 -
-common.hpp
-/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp
-
-/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Sphere.hpp
 vector
 -
 common.hpp
@@ -38,19 +36,11 @@ glm/gtx/io.hpp
 glm/gtc/random.hpp
 -
 
-/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Cube.cpp
-cmath
--
-vector
--
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/Object.cpp
+glimac/Object.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/glimac/Object.hpp
 iostream
 -
-glimac/common.hpp
-/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/glimac/common.hpp
-glimac/Sphere.hpp
-/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/glimac/Sphere.hpp
-glimac/Cube.hpp
-/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/src/glimac/Cube.hpp
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/detail/_fixes.hpp
 cmath

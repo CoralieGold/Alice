@@ -92,7 +92,7 @@ bool SceneOpenGL::readLevel() {
                     //cout << "object 3D : " << object << endl;
 
                     treasures.push_back(Treasure(id, posX, posY, name, type, feature, object));
-                    grid[posY][posX] = 8;
+                    //grid[posY][posX] = 8;
                     //cout << treasures[0].getId() << " pos : " << treasures[0].getPosX() << " " << treasures[0].getPosY() << endl; 
                 }
 
@@ -155,8 +155,9 @@ bool SceneOpenGL::readLevel() {
                     string object = line.substr(0, pos);
                     line = line.substr(pos+1);
 
-                    monsters.push_back(Monster(id, posX, posY, name, type, attack, defense, life, object));
-                    grid[posY][posX] = 7;
+                    monsters.push_back(new Monster(id, posX, posY, name, type, attack, defense, life, object));
+                    monsters[monsters.size() - 1]->setOrientation(0);
+                    //grid[posY][posX] = 7;
                 }
 
                 cout << "Carte chargee : " << endl;
@@ -249,10 +250,9 @@ vector<Treasure> SceneOpenGL::getTreasures(){
     return treasures;
 }
 
-vector<Monster> SceneOpenGL::getMonsters(){
+vector<Monster*> SceneOpenGL::getMonsters(){
     return monsters;
 }
-
 
 
 bool SceneOpenGL::canMove(int orientation, int posX, int posY, int action) {
@@ -372,7 +372,7 @@ bool SceneOpenGL::isMonster(int posX, int posY){
     bool exist = false;
     for(unsigned int i = 0; i < monsters.size(); i ++) {
         //std::cout << treasures[i].getPosX() << ":" << treasures[i].getPosY() << std::endl;
-        if(monsters[i].getPosX() == posX && monsters[i].getPosY() == posY) {
+        if(monsters[i]->getPosX() == posX && monsters[i]->getPosY() == posY) {
             exist = true;
             //std::cout << treasures[i].getPosX() << ": ok " << treasures[i].getPosY() << std::endl;
         }
@@ -423,7 +423,7 @@ GLuint SceneOpenGL::createVboCube(Cube &cube) {
 }
 
 GLuint SceneOpenGL::createVboSphere(Sphere &sphere) {
-        // Creation d'un seul VBO
+    // Creation d'un seul VBO
     GLuint vbo;
     glGenBuffers(1, &vbo);
     // A partir de ce point, la variable vbo contient l'identifiant d'une VBO
@@ -436,6 +436,31 @@ GLuint SceneOpenGL::createVboSphere(Sphere &sphere) {
 
     /*** Remplir le VBO ***/
     glBufferData(GL_ARRAY_BUFFER, sphere.getVertexCount() * sizeof(ShapeVertex), sphere.getDataPointer(), GL_STATIC_DRAW);
+
+    /*** Débinder le VBO ***/
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    return vbo;
+}
+
+GLuint SceneOpenGL::createVboObject(Object &object) {
+    // Creation d'un seul VBO
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
+    // A partir de ce point, la variable vbo contient l'identifiant d'une VBO
+
+    /*** Binding du VBO ***/
+
+    // Binding d'un VBO sur la cible GL_ARRAY_BUFFER
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    // On peut à présent modifier le VBO en passant par la cible GL_ARRAY_BUFFER
+
+    /*** Remplir le VBO ***/
+    // for(unsigned int i = 0; i < object.vertex.size(); i ++) {
+    //     cout << object.vertex[i].position.x << " " << object.vertex[i].position.y << " " 
+    //          << object.vertex[i].position.z << endl;
+    // }
+    glBufferData(GL_ARRAY_BUFFER, object.vertex.size() * sizeof(ShapeVertex), &object.vertex[0], GL_STATIC_DRAW);
 
     /*** Débinder le VBO ***/
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -469,4 +494,56 @@ void SceneOpenGL::createVao(GLuint vbo) {
 
     /*** Débinding du vao ***/
     glBindVertexArray(0);
+}
+
+bool SceneOpenGL::monsterSeeHero(Monster m, Hero a){
+    unsigned int i, tmpInf = 0, tmpSup = 0;
+
+    // meme case
+    if(m.getPosX() == a.getPosX() && m.getPosY() == a.getPosY()) return true;
+    // meme colonne
+    if(m.getPosX() == a.getPosX()){
+        if(m.getPosY() < a.getPosY() && m.getOrientation() == 180){
+            tmpInf = m.getPosY();
+            tmpSup = a.getPosY();
+        }
+        else if(m.getPosY() > a.getPosY() && m.getOrientation() == 0){
+            tmpInf = a.getPosY();
+            tmpSup = m.getPosY();
+        }else{
+            return false; // faire autre chose = meme case tous les deux
+        }
+        for(i = tmpInf; i < tmpSup; i++){
+            if(grid[i][m.getPosX()] != 2 ) return false;
+        }
+        return true;       
+    }
+    // meme ligne
+    if(m.getPosY() == a.getPosY()){
+        if(m.getPosX() < a.getPosX() && m.getOrientation() == 90){
+            tmpInf = m.getPosX();
+            tmpSup = a.getPosX();
+        }
+        else if(m.getPosX() > a.getPosX() && m.getOrientation() == 270){
+            tmpInf = a.getPosX();
+            tmpSup = m.getPosX();
+        }else{
+            return false; // faire autre chose = meme case tous les deux
+        }
+        for(i = tmpInf; i < tmpSup; i++){
+            if(grid[m.getPosY()][i] != 2 ) return false;
+        }
+        return true;       
+    }
+
+    return false;
+}
+
+bool SceneOpenGL::monsterNextToHero(Monster m, Hero a){
+    if(m.getPosX()+1 == a.getPosX() || m.getPosX()-1 == a.getPosX() || m.getPosY()+1 == a.getPosY() || m.getPosY()-1 == a.getPosY()) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }

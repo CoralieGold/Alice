@@ -21,6 +21,7 @@ class Monster
     int getDefense() const;
     unsigned int getLife() const;
     string getObject() const;
+    int getOrientation() const;
 
     void setId(const unsigned int &value);
     void setPosX(const unsigned int &value);
@@ -31,8 +32,10 @@ class Monster
     void setDefense(const int &value);
     void setLife(const unsigned int &value);
     void setObject(const string &value);
+    void setOrientation(const int &orientation);
     void setMonster(const  unsigned int &id, const  unsigned int &posX, const  unsigned int &posY, const  string &name, const  string &type, const int &attack, const int &defense, const unsigned int &life, const  string &object);
 
+    void move();
 
     Monster(unsigned int &id, unsigned int &posX, unsigned int &posY, string &name, string &type, int &attack, int &defense, unsigned int &life, string &object);
     ~Monster();
@@ -47,6 +50,7 @@ class Monster
     int defense;
     unsigned int life;
     string object;
+    int orientation;
 
 };
 
