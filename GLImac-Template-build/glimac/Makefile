@@ -164,6 +164,30 @@ src/Cube.cpp.s:
 	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Cube.cpp.s
 .PHONY : src/Cube.cpp.s
 
+src/Face.o: src/Face.cpp.o
+.PHONY : src/Face.o
+
+# target to build an object file
+src/Face.cpp.o:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Face.cpp.o
+.PHONY : src/Face.cpp.o
+
+src/Face.i: src/Face.cpp.i
+.PHONY : src/Face.i
+
+# target to preprocess a source file
+src/Face.cpp.i:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Face.cpp.i
+.PHONY : src/Face.cpp.i
+
+src/Face.s: src/Face.cpp.s
+.PHONY : src/Face.s
+
+# target to generate assembly for a file
+src/Face.cpp.s:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Face.cpp.s
+.PHONY : src/Face.cpp.s
+
 src/FreeflyCamera.o: src/FreeflyCamera.cpp.o
 .PHONY : src/FreeflyCamera.o
 
@@ -428,6 +452,30 @@ src/Sphere.cpp.s:
 	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Sphere.cpp.s
 .PHONY : src/Sphere.cpp.s
 
+src/Text2D.o: src/Text2D.cpp.o
+.PHONY : src/Text2D.o
+
+# target to build an object file
+src/Text2D.cpp.o:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Text2D.cpp.o
+.PHONY : src/Text2D.cpp.o
+
+src/Text2D.i: src/Text2D.cpp.i
+.PHONY : src/Text2D.i
+
+# target to preprocess a source file
+src/Text2D.cpp.i:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Text2D.cpp.i
+.PHONY : src/Text2D.cpp.i
+
+src/Text2D.s: src/Text2D.cpp.s
+.PHONY : src/Text2D.s
+
+# target to generate assembly for a file
+src/Text2D.cpp.s:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Text2D.cpp.s
+.PHONY : src/Text2D.cpp.s
+
 src/TrackballCamera.o: src/TrackballCamera.cpp.o
 .PHONY : src/TrackballCamera.o
 
@@ -515,6 +563,9 @@ help:
 	@echo "... src/Cube.o"
 	@echo "... src/Cube.i"
 	@echo "... src/Cube.s"
+	@echo "... src/Face.o"
+	@echo "... src/Face.i"
+	@echo "... src/Face.s"
 	@echo "... src/FreeflyCamera.o"
 	@echo "... src/FreeflyCamera.i"
 	@echo "... src/FreeflyCamera.s"
@@ -548,6 +599,9 @@ help:
 	@echo "... src/Sphere.o"
 	@echo "... src/Sphere.i"
 	@echo "... src/Sphere.s"
+	@echo "... src/Text2D.o"
+	@echo "... src/Text2D.i"
+	@echo "... src/Text2D.s"
 	@echo "... src/TrackballCamera.o"
 	@echo "... src/TrackballCamera.i"
 	@echo "... src/TrackballCamera.s"

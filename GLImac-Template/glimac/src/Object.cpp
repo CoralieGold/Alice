@@ -65,10 +65,10 @@ bool Object::loadObject() {
     }
     cout << vertexIndices.size() << endl;
     for( unsigned int i=0; i < temp_vertices.size(); i+=1){
-        cout << temp_vertices[i].x << " " << temp_vertices[i].y << " " << temp_vertices[i].z << endl;
+        //cout << temp_vertices[i].x << " " << temp_vertices[i].y << " " << temp_vertices[i].z << endl;
     }
     for( unsigned int i=0; i < vertexIndices.size(); i+=1){
-        cout << vertexIndices[i] << endl;
+        //cout << vertexIndices[i] << endl;
         ShapeVertex v(temp_vertices[vertexIndices[i]],
                       temp_normals[normalIndices[i]],
                       temp_uvs[uvIndices[i]]

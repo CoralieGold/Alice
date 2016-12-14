@@ -44,6 +44,8 @@ class Hero
     void up();
     void left();
     void right();
+    void rotateUp();
+    void rotateDown();
 
 
     void applyTreasure(Treasure &treasure);

@@ -18,8 +18,8 @@ void SceneOpenGL::setGrid(int** &value) {
     grid = value;
 }
 
-bool SceneOpenGL::readLevel() {
-    ifstream file ("../GLImac-Template/assets/files/level.txt");  //Ouverture d'un fichier en lecture
+bool SceneOpenGL::readLevel(const char * filepath) {
+    ifstream file(filepath);  //Ouverture d'un fichier en lecture
     string line;
 
     unsigned int nbTreasures;
@@ -35,7 +35,7 @@ bool SceneOpenGL::readLevel() {
 
         // nom du fichier ppm
         getline(file, line);
-        bool test = readDungeon(line);
+        bool test = readDungeon(line.c_str());
 
         // nombre trésors
         getline(file, line);
@@ -180,8 +180,11 @@ bool SceneOpenGL::readLevel() {
 
 }
 
-bool SceneOpenGL::readDungeon(string image){
-    ifstream file ("../GLImac-Template/assets/files/level.ppm");  //Ouverture d'un fichier en lecture
+bool SceneOpenGL::readDungeon(const char * imagepath){
+    char fileName[200];
+    strcpy(fileName, "../GLImac-Template/assets/files/");
+    strcat(fileName, imagepath);
+    ifstream file (fileName);  //Ouverture d'un fichier en lecture
     string line;
 
     if(file)
@@ -223,13 +226,12 @@ bool SceneOpenGL::readDungeon(string image){
                 getline(file, g);
                 getline(file, b);
                 //cout << r << " " << g << " " << b << endl;
-                if(r == "0" && g == "0" && b == "0") value = 1; // mur
-                else if(r == "255" && g == "255" && b == "255") value = 2; // couloir
-                else if(r == "255" && g == "0" && b == "0") value = 3; // entree
-                else if(r == "0" && g == "255" && b == "0") value = 4; // sortie
-                else if(r == "170" && g == "119" && b == "34") value = 5; // porte
-                else if(r == "0" && g == "0" && b == "255") value = 6; // eau
-                else value = 1;
+                if(r == "0" && g == "0" && b == "0") value = WALL; // mur
+                else if(r == "255" && g == "255" && b == "255") value = CORRIDOR; // couloir
+                else if(r == "255" && g == "0" && b == "0") value = ENTER; // entree
+                else if(r == "0" && g == "255" && b == "0") value = EXIT; // sortie
+                else if(r == "170" && g == "119" && b == "34") value = DOOR; // porte
+                else value = WALL;
                 //cout << value << endl;
                 grid[i][j] = value;
             }
@@ -254,6 +256,13 @@ vector<Monster*> SceneOpenGL::getMonsters(){
     return monsters;
 }
 
+bool SceneOpenGL::hasObstacle(int posX, int posY){
+    for(unsigned int i = 0; i < monsters.size(); i++){
+        if(monsters[i]->getPosX() == posX && monsters[i]->getPosY() == posY) return true;
+    }
+    return false;
+}
+
 
 bool SceneOpenGL::canMove(int orientation, int posX, int posY, int action) {
     switch(orientation) {
@@ -261,7 +270,7 @@ bool SceneOpenGL::canMove(int orientation, int posX, int posY, int action) {
             // S'il veut aller en avant
             if(action > 0) {
                 if(posY-1 >= 0) {
-                    if(grid[posY-1][posX] != 1) {
+                    if(grid[posY-1][posX] != WALL && !hasObstacle(posX, posY-1) && grid[posY-1][posX] != ENTER && grid[posY-1][posX] != EXIT) {
                         return true;
                     }
                     else return false;
@@ -271,7 +280,7 @@ bool SceneOpenGL::canMove(int orientation, int posX, int posY, int action) {
             // S'il veut aller en arrière
             else if(action < 0) {
                 if(posY+1 < sizeY) {
-                    if(grid[posY+1][posX] != 1) {
+                    if(grid[posY+1][posX] != WALL && !hasObstacle(posX, posY+1) && grid[posY+1][posX] != ENTER && grid[posY+1][posX] != EXIT) {
                         return true;
                     }
                     else return false;
@@ -284,7 +293,7 @@ bool SceneOpenGL::canMove(int orientation, int posX, int posY, int action) {
             // S'il veut aller en avant
             if(action > 0) {
                 if(posX+1 < sizeX) {
-                    if(grid[posY][posX+1] != 1) {
+                    if(grid[posY][posX+1] != WALL && !hasObstacle(posX+1, posY) && grid[posY][posX+1] != ENTER && grid[posY][posX+1] != EXIT) {
                         return true;
                     }
                     else return false;
@@ -294,7 +303,7 @@ bool SceneOpenGL::canMove(int orientation, int posX, int posY, int action) {
             // S'il veut aller en arrière
             else if(action < 0) {
                 if(posX-1 >= 0) {
-                    if(grid[posY][posX-1] != 1) {
+                    if(grid[posY][posX-1] != WALL && !hasObstacle(posX-1, posY) && grid[posY][posX-1] != ENTER && grid[posY][posX-1] != EXIT) {
                         return true;
                     }
                     else return false;
@@ -307,7 +316,7 @@ bool SceneOpenGL::canMove(int orientation, int posX, int posY, int action) {
             // S'il veut aller en avant
             if(action > 0) {
                 if(posY+1 < sizeY) {
-                    if(grid[posY+1][posX] != 1) {
+                    if(grid[posY+1][posX] != WALL && !hasObstacle(posX, posY+1) && grid[posY+1][posX] != ENTER && grid[posY+1][posX] != EXIT) {
                         return true;
                     }
                     else return false;
@@ -317,7 +326,7 @@ bool SceneOpenGL::canMove(int orientation, int posX, int posY, int action) {
             // S'il veut aller en arrière
             else if(action < 0) {
                 if(posY-1 >= 0) {
-                    if(grid[posY-1][posX] != 1) {
+                    if(grid[posY-1][posX] != WALL && !hasObstacle(posX, posY-1) && grid[posY-1][posX] != ENTER && grid[posY-1][posX] != EXIT) {
                         return true;
                     }
                     else return false;
@@ -330,7 +339,7 @@ bool SceneOpenGL::canMove(int orientation, int posX, int posY, int action) {
             // S'il veut aller en avant
             if(action > 0) {
                 if(posX-1 >= 0) {
-                    if(grid[posY][posX-1] != 1) {
+                    if(grid[posY][posX-1] != WALL && !hasObstacle(posX-1, posY) && grid[posY][posX-1] != ENTER && grid[posY][posX-1] != EXIT) {
                         return true;
                     }
                     else return false;
@@ -340,7 +349,7 @@ bool SceneOpenGL::canMove(int orientation, int posX, int posY, int action) {
             // S'il veut aller en arrière
             else if(action < 0) {
                 if(posX+1 < sizeX) {
-                    if(grid[posY][posX+1] != 1) {
+                    if(grid[posY][posX+1] != WALL && !hasObstacle(posX+1, posY) && grid[posY][posX+1] != ENTER && grid[posY][posX+1] != EXIT) {
                         return true;
                     }
                     else return false;
@@ -354,6 +363,60 @@ bool SceneOpenGL::canMove(int orientation, int posX, int posY, int action) {
             break;
     }
     //return true;
+}
+
+
+void SceneOpenGL::choosePath(Monster &m){
+    srand(time(NULL));
+    int randomOrientation;
+    int tmpOrientation = 0;
+
+    randomOrientation = rand() % 2;
+    // regarder d'abord si le mur de droite est libre
+    if(randomOrientation == 1){
+        tmpOrientation = m.getOrientation() + 90;
+        if(tmpOrientation >= 360) tmpOrientation = 0;
+        if(canMove(tmpOrientation, m.getPosX(), m.getPosY(), 1)){
+            m.setOrientation(tmpOrientation);
+
+        }else{
+            tmpOrientation = m.getOrientation() - 90;
+            if(tmpOrientation < 0) tmpOrientation = 270;
+            
+            if(canMove(tmpOrientation, m.getPosX(), m.getPosY(), 1)){
+                m.setOrientation(tmpOrientation);
+            // sinon demi tour
+            }else{
+                m.setOrientation(m.getOrientation() + 180);
+                if(m.getOrientation() == 360) m.setOrientation(0);
+                if(m.getOrientation() == 450) m.setOrientation(90);
+            }
+        }
+    }
+    // regarder d'abord si le mur de gauche est libre
+    else{ 
+        tmpOrientation = m.getOrientation() - 90;
+        if(tmpOrientation < 0) tmpOrientation = 270;
+        
+        if(canMove(tmpOrientation, m.getPosX(), m.getPosY(), 1)){
+            m.setOrientation(tmpOrientation);
+        }
+        // sinon regarder si le mur de droite est libre
+        else{
+            tmpOrientation = m.getOrientation() + 90;
+            if(tmpOrientation >= 360) tmpOrientation = 0;
+
+            if(canMove(tmpOrientation, m.getPosX(), m.getPosY(), 1)){
+                m.setOrientation(tmpOrientation);
+            }
+
+            else{
+                m.setOrientation(m.getOrientation() + 180);
+                if(m.getOrientation() == 360) m.setOrientation(0);
+                if(m.getOrientation() == 450) m.setOrientation(90);
+            }
+        }
+    }
 }
 
 bool SceneOpenGL::isTreasure(int posX, int posY){
@@ -396,9 +459,85 @@ void SceneOpenGL::deleteTreasure(int posX, int posY) {
     }
 }
 
+void SceneOpenGL::deleteMonster(unsigned int id) {
+    for(unsigned int i = 0; i < monsters.size(); i ++) {
+        if(i == id) {
+            monsters.erase(monsters.begin() + i);
+        }
+    }
+}
+
+
 /*Monster SceneOpenGL::getMonster(int posX, int posY) {
 
 }*/
+
+
+bool SceneOpenGL::monsterSeeHero(Monster m, Hero a){
+    unsigned int i, tmpInf = 0, tmpSup = 0;
+
+    // meme case
+    if(m.getPosX() == a.getPosX() && m.getPosY() == a.getPosY()) return true;
+    // meme colonne
+    if(m.getPosX() == a.getPosX()){
+        if(m.getPosY() < a.getPosY() && m.getOrientation() == 180){
+            tmpInf = m.getPosY();
+            tmpSup = a.getPosY();
+        }
+        else if(m.getPosY() > a.getPosY() && m.getOrientation() == 0){
+            tmpInf = a.getPosY();
+            tmpSup = m.getPosY();
+        }else{
+            return false; // faire autre chose = meme case tous les deux
+        }
+        for(i = tmpInf; i < tmpSup; i++){
+            if(grid[i][m.getPosX()] != CORRIDOR ) return false;
+        }
+        return true;       
+    }
+    // meme ligne
+    if(m.getPosY() == a.getPosY()){
+        if(m.getPosX() < a.getPosX() && m.getOrientation() == 90){
+            tmpInf = m.getPosX();
+            tmpSup = a.getPosX();
+        }
+        else if(m.getPosX() > a.getPosX() && m.getOrientation() == 270){
+            tmpInf = a.getPosX();
+            tmpSup = m.getPosX();
+        }else{
+            return false; // faire autre chose = meme case tous les deux
+        }
+        for(i = tmpInf; i < tmpSup; i++){
+            if(grid[m.getPosY()][i] != CORRIDOR ) return false;
+        }
+        return true;       
+    }
+
+    return false;
+}
+
+bool SceneOpenGL::monsterNextToHero(Monster m, Hero a){
+    if(m.getPosX()+1 == a.getPosX() || m.getPosX()-1 == a.getPosX() || m.getPosY()+1 == a.getPosY() || m.getPosY()-1 == a.getPosY()) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+// Héro attaque le monstre
+unsigned int SceneOpenGL::attack(Hero &h, Monster &m) {
+    int life = m.getLife() - (h.getAttack() - m.getDefense());
+    if(life > 0) return (unsigned int) life;
+    else return 0;
+}
+
+// Monstre attaque le héro
+unsigned int SceneOpenGL::isAttacked(Monster &m, Hero &h) {
+    int life = h.getLife() - (m.getAttack() - h.getDefense());
+    if(life > 0) return (unsigned int) life;
+    else return 0;
+}
 
 
 GLuint SceneOpenGL::createVboCube(Cube &cube) {
@@ -496,54 +635,17 @@ void SceneOpenGL::createVao(GLuint vbo) {
     glBindVertexArray(0);
 }
 
-bool SceneOpenGL::monsterSeeHero(Monster m, Hero a){
-    unsigned int i, tmpInf = 0, tmpSup = 0;
+GLuint SceneOpenGL::createTexture(const char* imagePath) {
+    std::unique_ptr<Image> image = loadImage(imagePath);
+    if(image != NULL) std::cout << "La texture des murs est bien chargée !" << std::endl;
+    
+    GLuint texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->getWidth(), image->getHeight(), 0, GL_RGBA, GL_FLOAT, image->getPixels());
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-    // meme case
-    if(m.getPosX() == a.getPosX() && m.getPosY() == a.getPosY()) return true;
-    // meme colonne
-    if(m.getPosX() == a.getPosX()){
-        if(m.getPosY() < a.getPosY() && m.getOrientation() == 180){
-            tmpInf = m.getPosY();
-            tmpSup = a.getPosY();
-        }
-        else if(m.getPosY() > a.getPosY() && m.getOrientation() == 0){
-            tmpInf = a.getPosY();
-            tmpSup = m.getPosY();
-        }else{
-            return false; // faire autre chose = meme case tous les deux
-        }
-        for(i = tmpInf; i < tmpSup; i++){
-            if(grid[i][m.getPosX()] != 2 ) return false;
-        }
-        return true;       
-    }
-    // meme ligne
-    if(m.getPosY() == a.getPosY()){
-        if(m.getPosX() < a.getPosX() && m.getOrientation() == 90){
-            tmpInf = m.getPosX();
-            tmpSup = a.getPosX();
-        }
-        else if(m.getPosX() > a.getPosX() && m.getOrientation() == 270){
-            tmpInf = a.getPosX();
-            tmpSup = m.getPosX();
-        }else{
-            return false; // faire autre chose = meme case tous les deux
-        }
-        for(i = tmpInf; i < tmpSup; i++){
-            if(grid[m.getPosY()][i] != 2 ) return false;
-        }
-        return true;       
-    }
-
-    return false;
-}
-
-bool SceneOpenGL::monsterNextToHero(Monster m, Hero a){
-    if(m.getPosX()+1 == a.getPosX() || m.getPosX()-1 == a.getPosX() || m.getPosY()+1 == a.getPosY() || m.getPosY()-1 == a.getPosY()) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return texture;
 }

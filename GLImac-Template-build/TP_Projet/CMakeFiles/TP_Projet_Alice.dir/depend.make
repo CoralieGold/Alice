@@ -3,6 +3,7 @@
 
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/TP_Projet/Alice.cpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Cube.hpp
+TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Face.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/FilePath.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/FreeflyCamera.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Hero.hpp
@@ -15,6 +16,7 @@ TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Document
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Shader.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Sphere.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Treasure.hpp
+TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Vertex2DUV.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/glm.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/detail/_fixes.hpp
@@ -90,6 +92,10 @@ TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Document
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/norm.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/norm.inl
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/quaternion.hpp
+TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/rotate_vector.hpp
+TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/rotate_vector.inl
+TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/transform.hpp
+TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/transform.inl
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/integer.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/mat2x2.hpp
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/mat2x3.hpp

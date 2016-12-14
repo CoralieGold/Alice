@@ -145,6 +145,15 @@ void Hero::right() {
 	//std::cout << "Orientation : " << orientation << std::endl;
 }
 
+void Hero::rotateUp() {
+	camera.rotateUp(10);
+}
+
+void Hero::rotateDown() {
+	camera.rotateUp(-10);
+}
+
+
 void Hero::applyTreasure(Treasure &treasure) {
     switch(treasure.getType()) {
     	case 1 : // ajoute de la vie

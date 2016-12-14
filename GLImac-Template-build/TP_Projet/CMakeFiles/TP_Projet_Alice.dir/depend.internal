@@ -4,6 +4,7 @@
 TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/TP_Projet/Alice.cpp
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Cube.hpp
+ /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Face.hpp
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/FilePath.hpp
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/FreeflyCamera.hpp
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Hero.hpp
@@ -16,6 +17,7 @@ TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Shader.hpp
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Sphere.hpp
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Treasure.hpp
+ /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Vertex2DUV.hpp
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/glm.hpp
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/detail/_fixes.hpp
@@ -91,6 +93,10 @@ TP_Projet/CMakeFiles/TP_Projet_Alice.dir/Alice.cpp.o
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/norm.hpp
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/norm.inl
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/quaternion.hpp
+ /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/rotate_vector.hpp
+ /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/rotate_vector.inl
+ /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/transform.hpp
+ /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/transform.inl
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/integer.hpp
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/mat2x2.hpp
  /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/mat2x3.hpp

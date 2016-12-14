@@ -6,15 +6,64 @@
 #include <glimac/FilePath.hpp>
 #include <glimac/Image.hpp>
 #include <glimac/SceneOpenGL.hpp>
+#include <glimac/Face.hpp>
 #include <GL/glew.h>
 #include <iostream>
 #include <vector>
 
-#include <stdlib.h>
-#include <time.h>
+
 
 using namespace glimac;
 using namespace std;
+
+struct WallProgram {
+    Program m_Program;
+
+
+    GLint uMVPMatrix;
+    GLint uMVMatrix;
+    GLint uNormalMatrix;
+    GLint uWallTexture;
+
+
+    WallProgram(const FilePath& applicationPath):
+        m_Program(loadProgram(applicationPath.dirPath() + "shaders/3D.vs.glsl",
+                              applicationPath.dirPath() + "shaders/tex3D.fs.glsl")) {
+        uMVPMatrix = glGetUniformLocation(m_Program.getGLId(), "uMVPMatrix");
+        uMVMatrix = glGetUniformLocation(m_Program.getGLId(), "uMVMatrix");
+        uNormalMatrix = glGetUniformLocation(m_Program.getGLId(), "uNormalMatrix");
+        uWallTexture = glGetUniformLocation(m_Program.getGLId(), "uTexture");
+    }
+};
+
+struct MapProgram {
+    Program m_Program;
+
+
+    GLint uModelMatrix;
+    GLint uMapTexture;
+
+
+    MapProgram(const FilePath& applicationPath):
+        m_Program(loadProgram(applicationPath.dirPath() + "shaders/text2D.vs.glsl",
+                              applicationPath.dirPath() + "shaders/text2D.fs.glsl")) {
+        uModelMatrix = glGetUniformLocation(m_Program.getGLId(), "uModelMatrix");
+        uMapTexture = glGetUniformLocation(m_Program.getGLId(), "uTexture");
+    }
+};
+
+glm::mat3 translate(float x, float y) {
+    return glm::mat3(glm::vec3(1, 0, 0), glm::vec3(0, 1, 0), glm::vec3(x, y, 1));
+}
+
+glm::mat3 scale(float a) {
+    return glm::mat3(glm::vec3(a, 0, 0), glm::vec3(0, a, 0), glm::vec3(0, 0, a));
+}
+
+glm::mat3 rotate(float a) {
+    return glm::mat3(glm::vec3(cos(glm::radians(a)), sin(glm::radians(a)), 0), glm::vec3(-sin(glm::radians(a)), cos(glm::radians(a)), 0), glm::vec3(0, 0, 1));
+}
+
 
 int main(int argc, char** argv) {
     // Initialize SDL and open a window
@@ -38,7 +87,7 @@ int main(int argc, char** argv) {
 
     // Initialisation de la scene opengl
     SceneOpenGL scene = SceneOpenGL();
-    if(!scene.readLevel()) {
+    if(!scene.readLevel("../GLImac-Template/assets/files/level2.txt")) {
         cout << "Impossible de lancer le niveau !" << endl;
     }
 
@@ -46,19 +95,19 @@ int main(int argc, char** argv) {
     unsigned int departX;
     unsigned int departY;
     string nom = "Alice";
-    int defense = 100;
-    int attaque = 100;
+    int defense = 5;
+    int attaque = 10;
     unsigned int ptsVie = 90;
 
-    cout << "Taille carte x:y " << scene.sizeX << " : " << scene.sizeY << endl;
+    //cout << "Taille carte x:y " << scene.sizeX << " : " << scene.sizeY << endl;
 
     for(int i = 0; i < scene.sizeY; i++) {
         for(int j = 0; j < scene.sizeX; j++) {
             // Si on a l'entrée, on dit que c'est le départ pour la caméra et le perso
-            if(scene.grid[i][j] == 3) {
+            if(scene.grid[i][j] == ENTER) {
                 departX = j;
                 departY = i;
-                cout << "J'ai trouvé l'entrée en " << departX << " : " << departY << endl;
+                //cout << "J'ai trouvé l'entrée en " << departX << " : " << departY << endl;
             }
         }
     }
@@ -71,22 +120,22 @@ int main(int argc, char** argv) {
         for(int j = 0; j < scene.sizeX; j++) {
             if(j == departX && i == departY) {
                 if(i-1 >= 0) {
-                    if(scene.getGrid()[i-1][j] != 1) {
+                    if(scene.getGrid()[i-1][j] != WALL) {
                         alice.setOrientation(0);
                     }  
                 }
                 else if(i+1 < scene.sizeY) {
-                    if(scene.getGrid()[i+1][j] != 1) {
+                    if(scene.getGrid()[i+1][j] != WALL) {
                         alice.setOrientation(180);
                     }
                 }
                 else if(j+1 < scene.sizeX) {
-                    if(scene.getGrid()[i][j+1] != 1) {
+                    if(scene.getGrid()[i][j+1] != WALL) {
                         alice.setOrientation(90);
                     }
                 }
                 else if(j-1 >= 0) {
-                    if(scene.getGrid()[i][j-1] != 1) {
+                    if(scene.getGrid()[i][j-1] != WALL) {
                         alice.setOrientation(270);
                     }
                 }
@@ -101,46 +150,51 @@ int main(int argc, char** argv) {
     alice.getCamera().rotateLeft(alice.getOrientation());
    // cout << "Alice caméra : " << alice.getCamera().getViewMatrix().x << endl;
 
-    /** Texture mur **/
-    std::unique_ptr<Image> murImage = loadImage("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Feuilles.jpg");
-    if(murImage != NULL) std::cout << "La texture des murs est bien chargée !" << std::endl;
-    GLuint textureMur;
-    glGenTextures(1, &textureMur);
-    glBindTexture(GL_TEXTURE_2D, textureMur);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, murImage->getWidth(), murImage->getHeight(), 0, GL_RGBA, GL_FLOAT, murImage->getPixels());
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    /** Texture autre (test) **/
-    std::unique_ptr<Image> testImage = loadImage("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/MoonMap.jpg");
-    if(testImage != NULL) std::cout << "La texture de test est bien chargée !" << std::endl;
-    
-    GLuint textureTest;
-    glGenTextures(1, &textureTest);
-    glBindTexture(GL_TEXTURE_2D, textureTest);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, testImage->getWidth(), testImage->getHeight(), 0, GL_RGBA, GL_FLOAT, testImage->getPixels());
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-
-
-
-
-    int uTexture;
-
-
 
     FilePath applicationPath(argv[0]);
-    Program program = loadProgram(applicationPath.dirPath() + "shaders/" + argv[1],
-        applicationPath.dirPath() + "shaders/" + argv[2]);
-    program.use();
+    WallProgram wallProgram(applicationPath);
+    MapProgram mapProgram(applicationPath);
 
+
+
+    /** Texture mur **/
+    GLuint textureMur = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Feuilles.png");
+
+    /** Texture porte haut **/
+    GLuint texturePorteHaut = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Sol.png");
+
+    /** Texture porte bas **/
+    GLuint texturePorteBas = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Sol.png");
+
+
+    /** Texture mur -- MAP **/
+    GLuint textureMurMap = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/violet_fonce.jpg");
+    /** Texture porte haut -- MAP**/
+    GLuint texturePorteMap = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/violet_clair.jpg");
+    /** Texture perso -- MAP**/
+    GLuint textureHeroMap = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/bleu_clair.jpg");
+    /** Texture fond -- MAP**/
+    GLuint textureFondMap = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/bleu_fonce.jpg");
+
+
+
+    /** Texture sol **/
+    GLuint textureSol = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Sol.png");
+
+    /** Texture plafond **/
+    GLuint texturePlafond = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Sol.png");
+
+    /** Texture Objet mange moi **/
+    GLuint textureTresorMangeMoi = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/MangeMoi.jpg");
+
+    /** Texture autre (test) **/
+    GLuint textureTest = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/MoonMap.jpg");
+
+    /** Texture chiffre **/
+    GLuint textureNombre5 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/5.jpg");
+
+    /** Texture chiffre **/
+    GLuint textureNombre10 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/10.jpg");
 
 
     Cube cube(1);
@@ -191,38 +245,64 @@ int main(int argc, char** argv) {
 
 
 
+    // MAP
 
-    // Read our .obj file
-    Object cone("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/models/coneText.obj");
-    cone.loadObject();
+    Vertex2DUV map[] = { 
+        Vertex2DUV(glm::vec2(-0.5, -0.5), glm::vec2(0, 1)),
+        Vertex2DUV(glm::vec2(0.5, -0.5), glm::vec2(1, 1)),
+        Vertex2DUV(glm::vec2(0.5, 0.5), glm::vec2(1, 0)),
+        Vertex2DUV(glm::vec2(-0.5, -0.5), glm::vec2(0, 1)),
+        Vertex2DUV(glm::vec2(0.5, 0.5), glm::vec2(1, 0)),
+        Vertex2DUV(glm::vec2(-0.5, 0.5), glm::vec2(0, 0))
+        
+    };
 
+
+    // Creation d'un seul VBO
+     GLuint vbo;
+     glGenBuffers(1, &vbo);
+    // A partir de ce point, la variable vbo contient l'identifiant d'une VBO
+
+    /*** Binding du VBO ***/
+
+    // Binding d'un VBO sur la cible GL_ARRAY_BUFFER
+     glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    // On peut à présent modifier le VBO en passant par la cible GL_ARRAY_BUFFER
+    /*** Remplir le VBO ***/
+
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(Vertex2DUV), map, GL_STATIC_DRAW);
+
+    /*** Débinder le VBO ***/
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     /*** Création du VAO ***/
-    GLuint vaoCone;
-    glGenVertexArrays(1, &vaoCone);
+    GLuint vaoMap;
+    glGenVertexArrays(1, &vaoMap);
+
     /*** Binding du vao ***/
-    glBindVertexArray(vaoCone);
+    glBindVertexArray(vaoMap);
+
     /*** Activation des attributs de vertex ***/
-    glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
-    glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
-    glEnableVertexAttribArray(VERTEX_ATTR_TEXT_COORD);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+
+
     /** Rebindage **/
-    glBindBuffer(GL_ARRAY_BUFFER, scene.createVboObject(cone));
-    glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) 0);
-    glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, normal));
-    glVertexAttribPointer(VERTEX_ATTR_TEXT_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, texCoords));
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex2DUV), (const GLvoid*) offsetof(Vertex2DUV, positionXY));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex2DUV), (const GLvoid*) offsetof(Vertex2DUV, coordTextUV));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+
     /*** Débinding du vao ***/
     glBindVertexArray(0);
 
 
 
 
+
+
     // activation test profondeur GPU
     glEnable(GL_DEPTH_TEST); 
-    GLint uMVPMatrix = glGetUniformLocation(program.getGLId(), "uMVPMatrix");
-    GLint uMVMatrix = glGetUniformLocation(program.getGLId(), "uMVMatrix");
-    GLint uNormalMatrix = glGetUniformLocation(program.getGLId(), "uNormalMatrix");
 
 
 
@@ -231,9 +311,9 @@ int main(int argc, char** argv) {
     MVMatrix = glm::translate(MVMatrix, glm::vec3(0.,0.,-5.0));
     NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
 
-    srand(time(NULL));
 
-    int randomOrientation;
+
+    bool isHurt = false, lookUp = false, lookDown = false;
 
 
     // Application loop:
@@ -310,7 +390,16 @@ int main(int argc, char** argv) {
                         break;
                         case SDL_BUTTON_LEFT :
                             // Attaque
-                            cout << "Attaque" << endl;
+                            for(unsigned int i = 0; i < scene.getMonsters().size(); i ++) {
+                                if(scene.monsterNextToHero(*scene.getMonsters()[i], alice)) {
+                                    scene.getMonsters()[i]->setLife(scene.attack(alice, *scene.getMonsters()[i]));
+                                    cout << "Après attaque : " << scene.getMonsters()[i]->getLife() << endl;
+                                    if(scene.getMonsters()[i]->getLife() == 0) {
+                                        cout << "Monstre mort :D " << endl;
+                                        scene.deleteMonster(i);
+                                    }
+                                }
+                            }
                         break;
                     }
                 break;
@@ -319,13 +408,17 @@ int main(int argc, char** argv) {
 
         /*********************************
          * HERE SHOULD COME THE RENDERING CODE
-         *********************************/
+        *********************************/
+
         timer ++;
         if(timer%MONSTERS_SPEED == 0) {
             for(unsigned int i = 0; i < scene.getMonsters().size(); i ++) {
                 if(scene.monsterSeeHero(*scene.getMonsters()[i], alice)) {
                     if(scene.monsterNextToHero(*scene.getMonsters()[i], alice)) {
-                        cout << "A l'attaque !" << endl;
+                        alice.setLife(scene.isAttacked(*scene.getMonsters()[i], alice));
+                        if(alice.getLife() == 0) cout << "Tu es morte :( " << endl;
+                        isHurt = true;
+                        cout << "Après attaque du monstre : " << alice.getLife() << endl;
                     }
                     else {
                         scene.getMonsters()[i]->move();
@@ -338,43 +431,124 @@ int main(int argc, char** argv) {
                         scene.getMonsters()[i]->move();
                     }
                     else {
-                        // regarder si un mur est libre (droite ou gauche selon aléatoire)
-                        randomOrientation = rand() % 2;
-                        if(randomOrientation == 1){
-                            scene.getMonsters()[i]->setOrientation(scene.getMonsters()[i]->getOrientation() + 90);
-                            if(scene.getMonsters()[i]->getOrientation() >= 360) scene.getMonsters()[i]->setOrientation(0);
-                        }else{
-                            scene.getMonsters()[i]->setOrientation(scene.getMonsters()[i]->getOrientation() - 90);
-                            if(scene.getMonsters()[i]->getOrientation() < 0) scene.getMonsters()[i]->setOrientation(270);
-                        }
-                        
+                        scene.choosePath(* scene.getMonsters()[i]);
+                        cout << "Orientation monstre " << scene.getMonsters()[i]->getOrientation() << endl;
+                        scene.getMonsters()[i]->move();
                     }
                 }
 
             }
         }
 
+        if(timer%10 == 0 && isHurt == true){
+            alice.rotateUp();
+            lookUp = true;
+        }else if(isHurt == true){
+            alice.rotateDown();
+            lookDown = true;
+        }
+        if(lookDown == true && lookUp == true){
+            lookDown = false;
+            lookUp = false;
+            isHurt = false;
+        }
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
         glm::mat4 viewMatrix = alice.getCamera().getViewMatrix();
-        //MVMatrix = MVMatrix * viewMatrix;
+
+
+        // AFFICHAGE CHIFFRES
+
+        glBindVertexArray(vaoMap);
+
+        mapProgram.m_Program.use();
+
+        if(alice.getLife() > 5) glBindTexture(GL_TEXTURE_2D, textureNombre10);
+        else glBindTexture(GL_TEXTURE_2D, textureNombre5);
+
+        glUniform1i(mapProgram.uMapTexture, 0);
+        
+
+        glm::mat3 uModelMatrix = scale(0.1)*translate(-8,8);
+        glUniformMatrix3fv(mapProgram.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        glBindVertexArray(0);
+
 
         // Affichage de cubes sur la carte
         for(int i = 0; i < scene.sizeY; i++) {
             for(int j = 0; j < scene.sizeX; j++) {
-                // Si on a un mur, afficher un cube sur la case
-                if(scene.grid[i][j] == 1) {
-                    glBindTexture(GL_TEXTURE_2D, textureMur);
-                    glUniform1i(glGetUniformLocation(program.getGLId(), "uTexture"), 0);
 
+
+                // TEST SOL ET CIEL -- MODIFIER TEXTURE
+
+                glBindVertexArray(vao);
+
+                wallProgram.m_Program.use();
+
+                glBindTexture(GL_TEXTURE_2D, textureSol);
+
+                glUniform1i(wallProgram.uWallTexture,0);
+
+                MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, -1, i));
+                MVMatrix = viewMatrix * MVMatrix;
+                glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+                glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+                glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+
+                glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
+
+                glBindTexture(GL_TEXTURE_2D, 0);
+
+                glBindVertexArray(0);
+
+
+
+                glBindVertexArray(vao);
+
+                wallProgram.m_Program.use();
+
+                glBindTexture(GL_TEXTURE_2D, texturePlafond);
+
+                glUniform1i(wallProgram.uWallTexture,0);
+
+                MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, 2, i));
+                MVMatrix = viewMatrix * MVMatrix;
+                glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+                glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+                glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+
+                glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
+
+                glBindTexture(GL_TEXTURE_2D, 0);
+
+                glBindVertexArray(0);
+
+
+                // Si on a un mur, afficher un cube sur la case
+                if(scene.grid[i][j] == WALL) {
                     glBindVertexArray(vao);
+
+                    wallProgram.m_Program.use();
+                    
+                    glBindTexture(GL_TEXTURE_2D, textureMur);
+
+                    glUniform1i(wallProgram.uWallTexture,0);
+                    
+                    //glUniform1i(glGetUniformLocation(program.getGLId(), "uTexture"), 0);
+
+                    
                     
                     glm::mat4 MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, 0, i));
                     MVMatrix = viewMatrix * MVMatrix;
-                    glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                    glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                    glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+                    glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+                    glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+                    glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
 
                     glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
 
@@ -383,54 +557,179 @@ int main(int argc, char** argv) {
 
                     MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, 1, i));
                     MVMatrix = viewMatrix * MVMatrix;
-                    glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                    glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                    glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+                    glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+                    glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+                    glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
 
                     glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
 
 
-                    // TEST SOL ET CIEL -- MODIFIER TEXTURE
-
-                    /*MVMatrix = glm::translate(glm::mat4(1), glm::vec3(i, 1, j));
-                    MVMatrix = glm::scale(MVMatrix, glm::vec3(30, 30, 30));
-                    MVMatrix = viewMatrix * MVMatrix;
-                    glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                    glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                    glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-
-                    glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());*/
-                    glBindVertexArray(0);
 
                     glBindTexture(GL_TEXTURE_2D, 0);
-                }
-                else if(scene.isTreasure(j, i)) {
-                    glBindTexture(GL_TEXTURE_2D, textureTest);
-                    glBindVertexArray(vaoCone);
 
+                    glBindVertexArray(0);
+
+
+                    // MINI CARTE 
+                    
+                    glBindVertexArray(vaoMap);
+
+                    mapProgram.m_Program.use();
+
+                    glBindTexture(GL_TEXTURE_2D, textureMurMap);
+
+                    glUniform1i(mapProgram.uMapTexture, 0);
+                    
+
+                    glm::mat3 uModelMatrix = scale(0.02)*translate(j+20,i+30);
+                    glUniformMatrix3fv(mapProgram.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
+                    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+                    glBindTexture(GL_TEXTURE_2D, 0);
+
+                    glBindVertexArray(0);
+
+                    
+                }
+                else if(j == alice.getPosX() && i == alice.getPosY()) {
+                    glBindVertexArray(vaoMap);
+                 
+                    mapProgram.m_Program.use();
+
+                    glBindTexture(GL_TEXTURE_2D, textureHeroMap);
+
+                    glUniform1i(mapProgram.uMapTexture, 0);
+                    
+
+                    glm::mat3 uModelMatrix = scale(0.02)*translate(j+20,i+30);
+                    glUniformMatrix3fv(mapProgram.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
+                    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+                    glBindTexture(GL_TEXTURE_2D, 0);
+
+
+                    glBindVertexArray(0);
+                }
+                else if(scene.grid[i][j] == ENTER || scene.grid[i][j] == EXIT) {
+
+                    // PORTE HAUT
+
+                    glBindVertexArray(vao);
+
+                    wallProgram.m_Program.use();
+
+                    glBindTexture(GL_TEXTURE_2D, texturePorteHaut);
+
+                    glUniform1i(wallProgram.uWallTexture,0);
+
+                    MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j+1, 1, i));
+                    MVMatrix = viewMatrix * MVMatrix;
+                    glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+                    glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+                    glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+
+                    glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
+
+                    glBindTexture(GL_TEXTURE_2D, 0);
+
+                    glBindVertexArray(0);
+
+
+                    // PORTE BAS
+
+                    glBindVertexArray(vao);
+
+                    wallProgram.m_Program.use();
+
+                    glBindTexture(GL_TEXTURE_2D, texturePorteBas);
+
+                    glUniform1i(wallProgram.uWallTexture,0);
+
+                    MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j+1, 0, i));
+                    MVMatrix = viewMatrix * MVMatrix;
+                    glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+                    glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+                    glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+
+                    glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
+
+                    glBindTexture(GL_TEXTURE_2D, 0);
+
+                    glBindVertexArray(0);
+
+
+
+                    // MINI CARTE 
+                    
+                    glBindVertexArray(vaoMap);
+
+                    mapProgram.m_Program.use();
+
+                    glBindTexture(GL_TEXTURE_2D, texturePorteMap);
+
+                    glUniform1i(mapProgram.uMapTexture, 0);
+                    
+
+                    glm::mat3 uModelMatrix = scale(0.02)*translate(j+20,i+30);
+                    glUniformMatrix3fv(mapProgram.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
+                    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+                    glBindTexture(GL_TEXTURE_2D, 0);
+
+                    glBindVertexArray(0);
+
+                }
+                else if(scene.grid[i][j] == CORRIDOR) {
+                    glBindVertexArray(vaoMap);
+
+                    mapProgram.m_Program.use();
+
+                    glBindTexture(GL_TEXTURE_2D, textureFondMap);
+
+                    glUniform1i(mapProgram.uMapTexture, 0);
+                    
+
+                    glm::mat3 uModelMatrix = scale(0.02)*translate(j+20,i+30);
+                    glUniformMatrix3fv(mapProgram.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
+                    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+                    glBindTexture(GL_TEXTURE_2D, 0);
+
+                    glBindVertexArray(0);
+
+                }
+
+                if(scene.isTreasure(j, i)) {
+                    wallProgram.m_Program.use();
+                    glBindTexture(GL_TEXTURE_2D, textureTresorMangeMoi);
+                    glBindVertexArray(vao);
+
+                    
+                    //MVMatrix = glm::rotate(MVMatrix, 180.f, glm::vec3(1, 0, 0));
                     MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, 0, i));
-                    MVMatrix = glm::scale(MVMatrix, glm::vec3(0.1, 0.1, 0.1));
+                    MVMatrix = glm::scale(MVMatrix, glm::vec3(0.3, 0.3, 0.3));
                     MVMatrix = viewMatrix * MVMatrix;
-                    glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                    glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                    glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-                    glDrawArrays(GL_TRIANGLES, 0, cone.vertex.size());
+                    glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+                    glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+                    glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+                    glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
 
                     glBindVertexArray(0);
 
                     glBindTexture(GL_TEXTURE_2D, 0);
                 }
-                else if(scene.isMonster(j, i)) {
+                if(scene.isMonster(j, i)) {
+                    wallProgram.m_Program.use();
                     glBindTexture(GL_TEXTURE_2D, textureTest);
-                    glUniform1i(glGetUniformLocation(program.getGLId(), "uTexture"), 0);
+                    glUniform1i(wallProgram.uWallTexture,0);
 
                     glBindVertexArray(vao2);
 
                     MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, 0, i));
                     MVMatrix = viewMatrix * MVMatrix;
-                    glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                    glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                    glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+                    glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+                    glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+                    glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
                     glDrawArrays(GL_TRIANGLES, 0, sphere.getVertexCount());
 
                     glBindVertexArray(0);
@@ -444,6 +743,9 @@ int main(int argc, char** argv) {
         // Update the display
         windowManager.swapBuffers();
     }
+
+    // Delete the text's VBO, the shader and the texture
+    // cleanupText2D();
 
     return EXIT_SUCCESS;
 }

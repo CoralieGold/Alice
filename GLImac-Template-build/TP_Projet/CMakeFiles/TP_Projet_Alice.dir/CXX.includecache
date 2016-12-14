@@ -23,15 +23,13 @@ glimac/Image.hpp
 -
 glimac/SceneOpenGL.hpp
 -
+glimac/Face.hpp
+-
 GL/glew.h
 -
 iostream
 -
 vector
--
-stdlib.h
--
-time.h
 -
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Cube.hpp
@@ -39,6 +37,12 @@ vector
 -
 common.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp
+
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Face.hpp
+common.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp
+Vertex2DUV.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Vertex2DUV.hpp
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/FilePath.hpp
 string
@@ -113,9 +117,15 @@ GL/glew.h
 -
 GL/glut.h
 -
+GL/glu.h
+-
 GL/gl.h
 -
 SDL/SDL.h
+-
+stdlib.h
+-
+time.h
 -
 Treasure.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Treasure.hpp
@@ -129,6 +139,8 @@ Sphere.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Sphere.hpp
 Object.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Object.hpp
+Image.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Image.hpp
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Shader.hpp
 GL/glew.h
@@ -150,6 +162,8 @@ string
 iostream
 -
 
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Vertex2DUV.hpp
+
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp
 GL/glew.h
 -
@@ -168,6 +182,8 @@ glm/gtc/constants.hpp
 glm/gtx/io.hpp
 -
 glm/gtc/random.hpp
+-
+glm/gtx/rotate_vector.hpp
 -
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/detail/_fixes.hpp
@@ -833,6 +849,26 @@ norm.inl
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/norm.hpp
 quaternion.inl
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/quaternion.inl
+
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/rotate_vector.hpp
+../glm.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/glm.hpp
+../gtx/transform.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/transform.hpp
+rotate_vector.inl
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/rotate_vector.inl
+
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/rotate_vector.inl
+
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/transform.hpp
+../glm.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/glm.hpp
+../gtc/matrix_transform.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtc/matrix_transform.hpp
+transform.inl
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/transform.inl
+
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/gtx/transform.inl
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/third-party/include/glm/integer.hpp
 detail/func_integer.hpp
