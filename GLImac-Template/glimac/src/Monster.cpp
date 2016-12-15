@@ -16,7 +16,7 @@ string Monster::getName() const {
 	return name;
 }
 
-string Monster::getType() const {
+int Monster::getType() const {
 	return type;
 }
 
@@ -56,7 +56,7 @@ void Monster::setName(const string &value) {
 	name = value;
 }
 
-void Monster::setType(const string &value) {
+void Monster::setType(const int &value) {
 	type = value;
 }
 
@@ -80,7 +80,7 @@ void Monster::setOrientation(const int &value) {
 	orientation = value;
 }
 
-void Monster::setMonster(const  unsigned int &id, const  unsigned int &posX, const  unsigned int &posY, const  string &name, const  string &type, const int &attack, const int &defense, const unsigned int &life, const  string &object) {
+void Monster::setMonster(const  unsigned int &id, const  unsigned int &posX, const  unsigned int &posY, const  string &name, const  int &type, const int &attack, const int &defense, const unsigned int &life, const  string &object) {
 	setId(id);
 	setPosX(posX);
 	setPosY(posY);
@@ -92,7 +92,7 @@ void Monster::setMonster(const  unsigned int &id, const  unsigned int &posX, con
 	setObject(object);
 }
 
-Monster::Monster(unsigned int &id, unsigned int &posX, unsigned int &posY, string &name, string &type, int &attack, int &defense, unsigned int &life, string &object) {
+Monster::Monster(unsigned int &id, unsigned int &posX, unsigned int &posY, string &name, int &type, int &attack, int &defense, unsigned int &life, string &object) {
 	setMonster(id, posX, posY, name, type, attack, defense, life, object);
 }
 

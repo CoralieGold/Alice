@@ -6,6 +6,13 @@
 #include <string>
 #include <iostream>
 
+
+#define TREASURE_LIFE 1
+#define TREASURE_DEFENSE 3
+#define TREASURE_ATTACK 2
+#define TREASURE_LEVEL 4
+
+
 using namespace std;
 
 // Classe

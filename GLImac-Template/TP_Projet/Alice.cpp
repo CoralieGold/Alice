@@ -1,7 +1,5 @@
 #include <glimac/SDLWindowManager.hpp>
 #include <glimac/common.hpp>
-#include <glimac/Object.hpp>
-#include <glimac/Cube.hpp>
 #include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>
 #include <glimac/Image.hpp>
@@ -11,58 +9,8 @@
 #include <iostream>
 #include <vector>
 
-
-
 using namespace glimac;
 using namespace std;
-
-struct WallProgram {
-    Program m_Program;
-
-
-    GLint uMVPMatrix;
-    GLint uMVMatrix;
-    GLint uNormalMatrix;
-    GLint uWallTexture;
-
-
-    WallProgram(const FilePath& applicationPath):
-        m_Program(loadProgram(applicationPath.dirPath() + "shaders/3D.vs.glsl",
-                              applicationPath.dirPath() + "shaders/tex3D.fs.glsl")) {
-        uMVPMatrix = glGetUniformLocation(m_Program.getGLId(), "uMVPMatrix");
-        uMVMatrix = glGetUniformLocation(m_Program.getGLId(), "uMVMatrix");
-        uNormalMatrix = glGetUniformLocation(m_Program.getGLId(), "uNormalMatrix");
-        uWallTexture = glGetUniformLocation(m_Program.getGLId(), "uTexture");
-    }
-};
-
-struct MapProgram {
-    Program m_Program;
-
-
-    GLint uModelMatrix;
-    GLint uMapTexture;
-
-
-    MapProgram(const FilePath& applicationPath):
-        m_Program(loadProgram(applicationPath.dirPath() + "shaders/text2D.vs.glsl",
-                              applicationPath.dirPath() + "shaders/text2D.fs.glsl")) {
-        uModelMatrix = glGetUniformLocation(m_Program.getGLId(), "uModelMatrix");
-        uMapTexture = glGetUniformLocation(m_Program.getGLId(), "uTexture");
-    }
-};
-
-glm::mat3 translate(float x, float y) {
-    return glm::mat3(glm::vec3(1, 0, 0), glm::vec3(0, 1, 0), glm::vec3(x, y, 1));
-}
-
-glm::mat3 scale(float a) {
-    return glm::mat3(glm::vec3(a, 0, 0), glm::vec3(0, a, 0), glm::vec3(0, 0, a));
-}
-
-glm::mat3 rotate(float a) {
-    return glm::mat3(glm::vec3(cos(glm::radians(a)), sin(glm::radians(a)), 0), glm::vec3(-sin(glm::radians(a)), cos(glm::radians(a)), 0), glm::vec3(0, 0, 1));
-}
 
 
 int main(int argc, char** argv) {
@@ -87,219 +35,110 @@ int main(int argc, char** argv) {
 
     // Initialisation de la scene opengl
     SceneOpenGL scene = SceneOpenGL();
-    if(!scene.readLevel("../GLImac-Template/assets/files/level2.txt")) {
-        cout << "Impossible de lancer le niveau !" << endl;
-    }
-
-    // A REVOIR
-    unsigned int departX;
-    unsigned int departY;
-    string nom = "Alice";
-    int defense = 5;
-    int attaque = 10;
-    unsigned int ptsVie = 90;
-
-    //cout << "Taille carte x:y " << scene.sizeX << " : " << scene.sizeY << endl;
-
-    for(int i = 0; i < scene.sizeY; i++) {
-        for(int j = 0; j < scene.sizeX; j++) {
-            // Si on a l'entrée, on dit que c'est le départ pour la caméra et le perso
-            if(scene.grid[i][j] == ENTER) {
-                departX = j;
-                departY = i;
-                //cout << "J'ai trouvé l'entrée en " << departX << " : " << departY << endl;
-            }
-        }
-    }
-
-    FreeflyCamera camera(glm::vec3(departX, 0, departY));
-    Hero alice(departX, departY, nom, attaque, defense, ptsVie, camera);
-
-
-    for(int i = 0; i < scene.sizeY; i++) {
-        for(int j = 0; j < scene.sizeX; j++) {
-            if(j == departX && i == departY) {
-                if(i-1 >= 0) {
-                    if(scene.getGrid()[i-1][j] != WALL) {
-                        alice.setOrientation(0);
-                    }  
-                }
-                else if(i+1 < scene.sizeY) {
-                    if(scene.getGrid()[i+1][j] != WALL) {
-                        alice.setOrientation(180);
-                    }
-                }
-                else if(j+1 < scene.sizeX) {
-                    if(scene.getGrid()[i][j+1] != WALL) {
-                        alice.setOrientation(90);
-                    }
-                }
-                else if(j-1 >= 0) {
-                    if(scene.getGrid()[i][j-1] != WALL) {
-                        alice.setOrientation(270);
-                    }
-                }
-                else {
-                    cout << "Le personnage est coincé !" << endl;
-                }
-            }
-        }
-    }
-
-    //cout << "Orientation du personnage : " << alice.getOrientation() << endl;
-    alice.getCamera().rotateLeft(alice.getOrientation());
-   // cout << "Alice caméra : " << alice.getCamera().getViewMatrix().x << endl;
-
+    Hero alice = Hero();
+    scene.levelInit(1, &alice);
 
     FilePath applicationPath(argv[0]);
-    WallProgram wallProgram(applicationPath);
-    MapProgram mapProgram(applicationPath);
+    Program3D prog3D(applicationPath);
+    Program2D prog2D(applicationPath);
 
 
+    GLuint textureMurHaut = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/texture_feuilles_haut.jpg");
+    GLuint textureMurBas = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/texture_feuilles_bas.jpg");
+    GLuint texturePorteDepartHaut = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/porte_depart_haut_02.jpg");
+    GLuint texturePorteDepartBas = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/porte_depart_bas_01.jpg");
+    GLuint texturePorteArriveeHaut = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/porte_arrivee_haut_04.jpg");
+    GLuint texturePorteArriveeBas = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/porte_arrivee_bas_03.jpg");
 
-    /** Texture mur **/
-    GLuint textureMur = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Feuilles.png");
-
-    /** Texture porte haut **/
-    GLuint texturePorteHaut = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Sol.png");
-
-    /** Texture porte bas **/
-    GLuint texturePorteBas = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Sol.png");
-
+    /** MAP **/
 
     /** Texture mur -- MAP **/
     GLuint textureMurMap = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/violet_fonce.jpg");
-    /** Texture porte haut -- MAP**/
     GLuint texturePorteMap = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/violet_clair.jpg");
-    /** Texture perso -- MAP**/
     GLuint textureHeroMap = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/bleu_clair.jpg");
-    /** Texture fond -- MAP**/
     GLuint textureFondMap = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/bleu_fonce.jpg");
-
-
-
     /** Texture sol **/
     GLuint textureSol = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Sol.png");
-
     /** Texture plafond **/
-    GLuint texturePlafond = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Sol.png");
+    GLuint texturePlafond = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/texture_ciel2.png");
+  
+    /** Texture monstre soldat 5 **/
+    GLuint textureMonster5 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/soldat_carte05_carre-04.jpg");
+    /** Texture monstre soldat 7 **/
+    GLuint textureMonster7 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/soldat_carte07_carre-05.jpg");
+    /** Texture monstre soldat 10 **/
+    GLuint textureMonster10 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/soldat_carte10_carre-06.jpg");
+    /** Texture monstre soldat Queen **/
+    GLuint textureMonsterQueen = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/reine_carte.jpg");
+    /** Texture monstre soldat Valet **/
+    GLuint textureMonsterValet = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/valet_carte.jpg");
 
-    /** Texture Objet mange moi **/
-    GLuint textureTresorMangeMoi = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/MangeMoi.jpg");
+    /** Texture monstre soldat 5 **/
+    GLuint textureTreasureHat = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/chapeau.jpg");
+    GLuint textureTreasureDrinkMe = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/drinkme.jpg");
+    /** Texture monstre soldat Queen **/
+    GLuint textureTreasureKey = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/cle.jpg");
+    /** Texture monstre soldat Valet **/
+    GLuint textureTreasureClock = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/clock.jpg");
 
-    /** Texture autre (test) **/
-    GLuint textureTest = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/MoonMap.jpg");
-
-    /** Texture chiffre **/
-    GLuint textureNombre5 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/5.jpg");
-
-    /** Texture chiffre **/
+    /** CHIFFRES **/
+    GLuint textureNombreGlobale = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/globale.jpg");
+    GLuint textureNombre0 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/0.jpg");
+    GLuint textureNombre5 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/05.jpg");
     GLuint textureNombre10 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/10.jpg");
+    GLuint textureNombre15 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/15.jpg");
+    GLuint textureNombre20 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/20.jpg");
+    GLuint textureNombre25 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/25.jpg");
+    GLuint textureNombre30 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/30.jpg");
+    GLuint textureNombre35 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/35.jpg");
+    GLuint textureNombre40 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/40.jpg");
+    GLuint textureNombre45 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/45.jpg");
+    GLuint textureNombre50 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/50.jpg");
+    GLuint textureNombre55 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/55.jpg");
+    GLuint textureNombre60 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/60.jpg");
+    GLuint textureNombre65 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/65.jpg");
+    GLuint textureNombre70 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/70.jpg");
+    GLuint textureNombre75 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/75.jpg");
+    GLuint textureNombre80 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/80.jpg");
+    GLuint textureNombre85 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/85.jpg");
+    GLuint textureNombre90 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/90.jpg");
+    GLuint textureNombre95 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/95.jpg");
+    GLuint textureNombre100 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/100.jpg");
+
+    GLuint textureNombreGlobale_soldat = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/soldat.jpg");
+    GLuint textureNombreGlobale_valet = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/valet.jpg");
+    GLuint textureNombreGlobale_queen = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/reine.jpg");
+    GLuint textureNombre0m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m0.jpg");
+    GLuint textureNombre5m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m05.jpg");
+    GLuint textureNombre10m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m10.jpg");
+    GLuint textureNombre15m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m15.jpg");
+    GLuint textureNombre20m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m20.jpg");
+    GLuint textureNombre25m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m25.jpg");
+    GLuint textureNombre30m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m30.jpg");
+    GLuint textureNombre35m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m35.jpg");
+    GLuint textureNombre40m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m40.jpg");
+    GLuint textureNombre45m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m45.jpg");
+    GLuint textureNombre50m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m50.jpg");
+    GLuint textureNombre55m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m55.jpg");
+    GLuint textureNombre60m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m60.jpg");
+    GLuint textureNombre65m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m65.jpg");
+    GLuint textureNombre70m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m70.jpg");
+    GLuint textureNombre75m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m75.jpg");
+    GLuint textureNombre80m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m80.jpg");
+    GLuint textureNombre85m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m85.jpg");
+    GLuint textureNombre90m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m90.jpg");
+    GLuint textureNombre95m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m95.jpg");
+    GLuint textureNombre100m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m100.jpg");
 
 
     Cube cube(1);
-    
-    /*** Création du VAO ***/
-    GLuint vao;
-    glGenVertexArrays(1, &vao);
-    /*** Binding du vao ***/
-    glBindVertexArray(vao);
-    /*** Activation des attributs de vertex ***/
-    const GLuint VERTEX_ATTR_POSITION = 0;
-    const GLuint VERTEX_ATTR_NORMAL = 1;
-    const GLuint VERTEX_ATTR_TEXT_COORD = 2;
-    glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
-    glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
-    glEnableVertexAttribArray(VERTEX_ATTR_TEXT_COORD);
-    /** Rebindage **/
-    glBindBuffer(GL_ARRAY_BUFFER, scene.createVboCube(cube));
-    glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) 0);
-    glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, normal));
-    glVertexAttribPointer(VERTEX_ATTR_TEXT_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, texCoords));
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    /*** Débinding du vao ***/
-    glBindVertexArray(0);
-
-
-
-
     Sphere sphere(0.25, 16, 32);
+    Card card(0.5);
 
-    /*** Création du VAO ***/
-    GLuint vao2;
-    glGenVertexArrays(1, &vao2);
-    /*** Binding du vao ***/
-    glBindVertexArray(vao2);
-    /*** Activation des attributs de vertex ***/
-    glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
-    glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
-    glEnableVertexAttribArray(VERTEX_ATTR_TEXT_COORD);
-    /** Rebindage **/
-    glBindBuffer(GL_ARRAY_BUFFER, scene.createVboSphere(sphere));
-    glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) 0);
-    glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, normal));
-    glVertexAttribPointer(VERTEX_ATTR_TEXT_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, texCoords));
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    /*** Débinding du vao ***/
-    glBindVertexArray(0);
-
-
-
-    // MAP
-
-    Vertex2DUV map[] = { 
-        Vertex2DUV(glm::vec2(-0.5, -0.5), glm::vec2(0, 1)),
-        Vertex2DUV(glm::vec2(0.5, -0.5), glm::vec2(1, 1)),
-        Vertex2DUV(glm::vec2(0.5, 0.5), glm::vec2(1, 0)),
-        Vertex2DUV(glm::vec2(-0.5, -0.5), glm::vec2(0, 1)),
-        Vertex2DUV(glm::vec2(0.5, 0.5), glm::vec2(1, 0)),
-        Vertex2DUV(glm::vec2(-0.5, 0.5), glm::vec2(0, 0))
-        
-    };
-
-
-    // Creation d'un seul VBO
-     GLuint vbo;
-     glGenBuffers(1, &vbo);
-    // A partir de ce point, la variable vbo contient l'identifiant d'une VBO
-
-    /*** Binding du VBO ***/
-
-    // Binding d'un VBO sur la cible GL_ARRAY_BUFFER
-     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    // On peut à présent modifier le VBO en passant par la cible GL_ARRAY_BUFFER
-    /*** Remplir le VBO ***/
-
-    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(Vertex2DUV), map, GL_STATIC_DRAW);
-
-    /*** Débinder le VBO ***/
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    /*** Création du VAO ***/
-    GLuint vaoMap;
-    glGenVertexArrays(1, &vaoMap);
-
-    /*** Binding du vao ***/
-    glBindVertexArray(vaoMap);
-
-    /*** Activation des attributs de vertex ***/
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-
-
-    /** Rebindage **/
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex2DUV), (const GLvoid*) offsetof(Vertex2DUV, positionXY));
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex2DUV), (const GLvoid*) offsetof(Vertex2DUV, coordTextUV));
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    /*** Débinding du vao ***/
-    glBindVertexArray(0);
-
-
-
-
-
+    GLuint vaoCube = scene.createVao3D(scene.createVboCube(cube));
+    GLuint vaoSphere = scene.createVao3D(scene.createVboSphere(sphere));
+    GLuint vaoMap = scene.createVao2D(scene.createVboFace());
+    GLuint vaoCard = scene.createVao3D(scene.createVboCube(cube));
 
     // activation test profondeur GPU
     glEnable(GL_DEPTH_TEST); 
@@ -329,78 +168,88 @@ int main(int argc, char** argv) {
                 case SDL_KEYDOWN : // touche clavier
                     switch(e.key.keysym.sym) {
                         case SDLK_DOWN :
-                        case SDLK_s :    
-                            // Reculer
-                            if(scene.canMove(alice.getOrientation(), alice.getPosX(), alice.getPosY(), -1)) {
-                                alice.down();
-                            }
-                            if(scene.isTreasure(alice.getPosX(), alice.getPosY())) {
-                                alice.applyTreasure(scene.getTreasure(alice.getPosX(), alice.getPosY()));
-                                scene.deleteTreasure(alice.getPosX(), alice.getPosY());
-                                cout << "Tresor applique !" << endl;
-                            }
-                            // prendre en compte si trésor ET monstre sur la meme case
-                            // if(scene.isMonster(alice.getPosX(), alice.getPosY())) {
-                            //     cout << "Il y a un monstre !" << endl;
-                            // }
-                        break;
+                        case SDLK_s :
+                            if(!scene.startGame && !scene.gameOver && !scene.paused) {
+                                if(scene.canMove(alice.getOrientation(), alice.getPosX(), alice.getPosY(), -1)) {
+                                    alice.down();
+                                }
+                                if(scene.isTreasure(alice.getPosX(), alice.getPosY())) {
+                                    alice.applyTreasure(scene.getTreasure(alice.getPosX(), alice.getPosY()));
+                                    scene.deleteTreasure(alice.getPosX(), alice.getPosY());
+                                }
+                            }    
+                            break;
                         case SDLK_UP :
                         case SDLK_z :
-                            // Avancer
-                            if(scene.canMove(alice.getOrientation(), alice.getPosX(), alice.getPosY(), 1)) {
-                                alice.up();
-                            } 
-                            if(scene.isTreasure(alice.getPosX(), alice.getPosY())) {
-                                alice.applyTreasure(scene.getTreasure(alice.getPosX(), alice.getPosY()));
-                                scene.deleteTreasure(alice.getPosX(), alice.getPosY());
-                                cout << "Tresor applique !" << endl;
+                            if(!scene.startGame && !scene.gameOver && !scene.paused) {
+                                if(scene.canMove(alice.getOrientation(), alice.getPosX(), alice.getPosY(), 1)) {
+                                    alice.up();
+                                } 
+                                if(scene.isTreasure(alice.getPosX(), alice.getPosY())) {
+                                    alice.applyTreasure(scene.getTreasure(alice.getPosX(), alice.getPosY()));
+                                    scene.deleteTreasure(alice.getPosX(), alice.getPosY());
+                                }
                             }
-                            // prendre en compte si trésor ET monstre sur la meme case
-                            // if(scene.isMonster(alice.getPosX(), alice.getPosY())) {
-                            //     cout << "Il y a un monstre !" << endl;
-                            // }
-                        break;
+                            break;
                         case SDLK_LEFT :
                         case SDLK_q :
-                            // Tourner à gauche de 90°
-                            alice.left();
-                            //cout << "Gauche" << endl;
+                            if(!scene.startGame && !scene.gameOver && !scene.paused) {
+                                alice.left();
+                            }
                         break;
                         case SDLK_RIGHT:
                         case SDLK_d :
-                            // Tourner à droite de 90°
-                            alice.right();
-                            //cout << "Droite" << endl;
-                        break;
-                        case SDLK_o:
-                            // Defense
-                            cout << "Defense" << endl;
-                        break;
-                        case SDLK_i :
-                            // Attaque
-                            cout << "Attaque" << endl;
+                            if(!scene.startGame && !scene.gameOver && !scene.paused) {
+                                alice.right();
+                            }
                         break;
                     }
                 break;
                 case SDL_MOUSEBUTTONDOWN :
                     switch(e.button.button) {
-                        case SDL_BUTTON_RIGHT:
-                            // Defense
-                            cout << "Defense" << endl;
-                        break;
                         case SDL_BUTTON_LEFT :
-                            // Attaque
-                            for(unsigned int i = 0; i < scene.getMonsters().size(); i ++) {
-                                if(scene.monsterNextToHero(*scene.getMonsters()[i], alice)) {
-                                    scene.getMonsters()[i]->setLife(scene.attack(alice, *scene.getMonsters()[i]));
-                                    cout << "Après attaque : " << scene.getMonsters()[i]->getLife() << endl;
-                                    if(scene.getMonsters()[i]->getLife() == 0) {
-                                        cout << "Monstre mort :D " << endl;
-                                        scene.deleteMonster(i);
+                            if(!scene.startGame && !scene.gameOver && !scene.paused) {
+                                if(scene.doorExitNextToHero(alice)) {
+                                    if(alice.getHasKey()) {
+                                        cout << "J'ai gagné !" << endl;
+                                        scene.heroHasWon = true;
+                                        /*scene.level++;
+                                        scene.levelInit(scene.level, &alice);*/
+                                    }
+                                    else {
+                                        cout << "You need to find the key..." << endl;
+                                    }
+                                }
+                                else {
+                                    // Attaque
+                                    for(unsigned int i = 0; i < scene.getMonsters().size(); i ++) {
+                                        if(scene.monsterNextToHero(*scene.getMonsters()[i], alice)) {
+                                            scene.getMonsters()[i]->setLife(scene.attack(alice, *scene.getMonsters()[i]));
+                                            if(scene.getMonsters()[i]->getLife() == 0) {
+                                                scene.deleteMonster(i);
+                                            }
+                                        }
                                     }
                                 }
                             }
-                        break;
+                            break;
+                    }
+                    if(scene.startGame) {
+                        if(e.button.x > -500 && e.button.x < 500 && e.button.y >-500 && e.button.y < 500) {
+                            scene.startGame = false;
+                            scene.paused = false;
+                        }
+                    }
+                    if(scene.gameOver) {
+                        if(e.button.x > -500 && e.button.x < 500 && e.button.y >-500 && e.button.y < 500) {
+                            scene.gameOver = false;
+                            scene.paused = false;
+                        }
+                    }
+                    if(scene.paused) {
+                        if(e.button.x > -500 && e.button.x < 500 && e.button.y >-500 && e.button.y < 500) {
+                            scene.paused = false;
+                        }
                     }
                 break;
             }
@@ -411,28 +260,29 @@ int main(int argc, char** argv) {
         *********************************/
 
         timer ++;
-        if(timer%MONSTERS_SPEED == 0) {
+        if(timer%MONSTERS_SPEED == 0 && !scene.startGame && !scene.gameOver && !scene.paused) {
             for(unsigned int i = 0; i < scene.getMonsters().size(); i ++) {
                 if(scene.monsterSeeHero(*scene.getMonsters()[i], alice)) {
                     if(scene.monsterNextToHero(*scene.getMonsters()[i], alice)) {
                         alice.setLife(scene.isAttacked(*scene.getMonsters()[i], alice));
                         if(alice.getLife() == 0) cout << "Tu es morte :( " << endl;
                         isHurt = true;
-                        cout << "Après attaque du monstre : " << alice.getLife() << endl;
                     }
                     else {
                         scene.getMonsters()[i]->move();
-                        cout << "Je me rapproche !" << endl; 
                     }
                     
                 }
                 else {
                     if(scene.canMove(scene.getMonsters()[i]->getOrientation(), scene.getMonsters()[i]->getPosX(), scene.getMonsters()[i]->getPosY(), 1)) {
+                        // if(timer%(MONSTERS_SPEED*2) == 0){
+                        //     scene.choosePath(* scene.getMonsters()[i]);
+                        //     scene.getMonsters()[i]->move();
+                        // }
                         scene.getMonsters()[i]->move();
                     }
                     else {
                         scene.choosePath(* scene.getMonsters()[i]);
-                        cout << "Orientation monstre " << scene.getMonsters()[i]->getOrientation() << endl;
                         scene.getMonsters()[i]->move();
                     }
                 }
@@ -459,285 +309,430 @@ int main(int argc, char** argv) {
         glm::mat4 viewMatrix = alice.getCamera().getViewMatrix();
 
 
-        // AFFICHAGE CHIFFRES
 
-        glBindVertexArray(vaoMap);
 
-        mapProgram.m_Program.use();
-
-        if(alice.getLife() > 5) glBindTexture(GL_TEXTURE_2D, textureNombre10);
-        else glBindTexture(GL_TEXTURE_2D, textureNombre5);
-
-        glUniform1i(mapProgram.uMapTexture, 0);
-        
-
-        glm::mat3 uModelMatrix = scale(0.1)*translate(-8,8);
-        glUniformMatrix3fv(mapProgram.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-        glBindVertexArray(0);
-
-
-        // Affichage de cubes sur la carte
-        for(int i = 0; i < scene.sizeY; i++) {
-            for(int j = 0; j < scene.sizeX; j++) {
-
-
-                // TEST SOL ET CIEL -- MODIFIER TEXTURE
-
-                glBindVertexArray(vao);
-
-                wallProgram.m_Program.use();
-
-                glBindTexture(GL_TEXTURE_2D, textureSol);
-
-                glUniform1i(wallProgram.uWallTexture,0);
-
-                MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, -1, i));
-                MVMatrix = viewMatrix * MVMatrix;
-                glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-
-                glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
-
-                glBindTexture(GL_TEXTURE_2D, 0);
-
-                glBindVertexArray(0);
-
-
-
-                glBindVertexArray(vao);
-
-                wallProgram.m_Program.use();
-
-                glBindTexture(GL_TEXTURE_2D, texturePlafond);
-
-                glUniform1i(wallProgram.uWallTexture,0);
-
-                MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, 2, i));
-                MVMatrix = viewMatrix * MVMatrix;
-                glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-
-                glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
-
-                glBindTexture(GL_TEXTURE_2D, 0);
-
-                glBindVertexArray(0);
-
-
-                // Si on a un mur, afficher un cube sur la case
-                if(scene.grid[i][j] == WALL) {
-                    glBindVertexArray(vao);
-
-                    wallProgram.m_Program.use();
-                    
-                    glBindTexture(GL_TEXTURE_2D, textureMur);
-
-                    glUniform1i(wallProgram.uWallTexture,0);
-                    
-                    //glUniform1i(glGetUniformLocation(program.getGLId(), "uTexture"), 0);
-
-                    
-                    
-                    glm::mat4 MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, 0, i));
-                    MVMatrix = viewMatrix * MVMatrix;
-                    glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                    glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                    glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-
-                    glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
-
-
-                    // TEST CUBES DESSUS -- MODIFIER TEXTURE
-
-                    MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, 1, i));
-                    MVMatrix = viewMatrix * MVMatrix;
-                    glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                    glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                    glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-
-                    glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
-
-
-
-                    glBindTexture(GL_TEXTURE_2D, 0);
-
-                    glBindVertexArray(0);
-
-
-                    // MINI CARTE 
-                    
-                    glBindVertexArray(vaoMap);
-
-                    mapProgram.m_Program.use();
-
-                    glBindTexture(GL_TEXTURE_2D, textureMurMap);
-
-                    glUniform1i(mapProgram.uMapTexture, 0);
-                    
-
-                    glm::mat3 uModelMatrix = scale(0.02)*translate(j+20,i+30);
-                    glUniformMatrix3fv(mapProgram.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
-                    glDrawArrays(GL_TRIANGLES, 0, 6);
-
-                    glBindTexture(GL_TEXTURE_2D, 0);
-
-                    glBindVertexArray(0);
-
-                    
-                }
-                else if(j == alice.getPosX() && i == alice.getPosY()) {
-                    glBindVertexArray(vaoMap);
-                 
-                    mapProgram.m_Program.use();
-
-                    glBindTexture(GL_TEXTURE_2D, textureHeroMap);
-
-                    glUniform1i(mapProgram.uMapTexture, 0);
-                    
-
-                    glm::mat3 uModelMatrix = scale(0.02)*translate(j+20,i+30);
-                    glUniformMatrix3fv(mapProgram.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
-                    glDrawArrays(GL_TRIANGLES, 0, 6);
-
-                    glBindTexture(GL_TEXTURE_2D, 0);
-
-
-                    glBindVertexArray(0);
-                }
-                else if(scene.grid[i][j] == ENTER || scene.grid[i][j] == EXIT) {
-
-                    // PORTE HAUT
-
-                    glBindVertexArray(vao);
-
-                    wallProgram.m_Program.use();
-
-                    glBindTexture(GL_TEXTURE_2D, texturePorteHaut);
-
-                    glUniform1i(wallProgram.uWallTexture,0);
-
-                    MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j+1, 1, i));
-                    MVMatrix = viewMatrix * MVMatrix;
-                    glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                    glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                    glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-
-                    glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
-
-                    glBindTexture(GL_TEXTURE_2D, 0);
-
-                    glBindVertexArray(0);
-
-
-                    // PORTE BAS
-
-                    glBindVertexArray(vao);
-
-                    wallProgram.m_Program.use();
-
-                    glBindTexture(GL_TEXTURE_2D, texturePorteBas);
-
-                    glUniform1i(wallProgram.uWallTexture,0);
-
-                    MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j+1, 0, i));
-                    MVMatrix = viewMatrix * MVMatrix;
-                    glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                    glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                    glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-
-                    glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
-
-                    glBindTexture(GL_TEXTURE_2D, 0);
-
-                    glBindVertexArray(0);
-
-
-
-                    // MINI CARTE 
-                    
-                    glBindVertexArray(vaoMap);
-
-                    mapProgram.m_Program.use();
-
-                    glBindTexture(GL_TEXTURE_2D, texturePorteMap);
-
-                    glUniform1i(mapProgram.uMapTexture, 0);
-                    
-
-                    glm::mat3 uModelMatrix = scale(0.02)*translate(j+20,i+30);
-                    glUniformMatrix3fv(mapProgram.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
-                    glDrawArrays(GL_TRIANGLES, 0, 6);
-
-                    glBindTexture(GL_TEXTURE_2D, 0);
-
-                    glBindVertexArray(0);
-
-                }
-                else if(scene.grid[i][j] == CORRIDOR) {
-                    glBindVertexArray(vaoMap);
-
-                    mapProgram.m_Program.use();
-
-                    glBindTexture(GL_TEXTURE_2D, textureFondMap);
-
-                    glUniform1i(mapProgram.uMapTexture, 0);
-                    
-
-                    glm::mat3 uModelMatrix = scale(0.02)*translate(j+20,i+30);
-                    glUniformMatrix3fv(mapProgram.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
-                    glDrawArrays(GL_TRIANGLES, 0, 6);
-
-                    glBindTexture(GL_TEXTURE_2D, 0);
-
-                    glBindVertexArray(0);
-
-                }
-
-                if(scene.isTreasure(j, i)) {
-                    wallProgram.m_Program.use();
-                    glBindTexture(GL_TEXTURE_2D, textureTresorMangeMoi);
-                    glBindVertexArray(vao);
-
-                    
-                    //MVMatrix = glm::rotate(MVMatrix, 180.f, glm::vec3(1, 0, 0));
-                    MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, 0, i));
-                    MVMatrix = glm::scale(MVMatrix, glm::vec3(0.3, 0.3, 0.3));
-                    MVMatrix = viewMatrix * MVMatrix;
-                    glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                    glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                    glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-                    glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
-
-                    glBindVertexArray(0);
-
-                    glBindTexture(GL_TEXTURE_2D, 0);
-                }
-                if(scene.isMonster(j, i)) {
-                    wallProgram.m_Program.use();
-                    glBindTexture(GL_TEXTURE_2D, textureTest);
-                    glUniform1i(wallProgram.uWallTexture,0);
-
-                    glBindVertexArray(vao2);
-
-                    MVMatrix = glm::translate(glm::mat4(1), glm::vec3(j, 0, i));
-                    MVMatrix = viewMatrix * MVMatrix;
-                    glUniformMatrix4fv(wallProgram.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-                    glUniformMatrix4fv(wallProgram.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-                    glUniformMatrix4fv(wallProgram.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-                    glDrawArrays(GL_TRIANGLES, 0, sphere.getVertexCount());
-
-                    glBindVertexArray(0);
-
-                    glBindTexture(GL_TEXTURE_2D, 0);
-                }
-            }
+        if(scene.startGame) {
+            prog2D.m_Program.use();
+            scene.drawStory(prog2D, vaoMap, textureNombre0);
         }
+        else {
+            prog2D.m_Program.use();
+            
+            // Dessin vie Alice
+            GLuint textLifeHero;
+            switch(alice.getLife()) {
+                case 0:
+                    textLifeHero = textureNombre0;
+                    break;
+                case 5:
+                    textLifeHero = textureNombre5;
+                    break;
+                case 10:
+                    textLifeHero = textureNombre10;
+                    break;
+                case 15:
+                    textLifeHero = textureNombre15;
+                    break;
+                case 20:
+                    textLifeHero = textureNombre20;
+                    break;
+                case 25:
+                    textLifeHero = textureNombre25;
+                    break;
+                case 30:
+                    textLifeHero = textureNombre30;
+                    break;
+                case 35:
+                    textLifeHero = textureNombre35;
+                    break;
+                case 40:
+                    textLifeHero = textureNombre40;
+                    break;
+                case 45:
+                    textLifeHero = textureNombre45;
+                    break;
+                case 50:
+                    textLifeHero = textureNombre50;
+                    break;
+                case 55:
+                    textLifeHero = textureNombre55;
+                    break;
+                case 60:
+                    textLifeHero = textureNombre60;
+                    break;
+                case 65:
+                    textLifeHero = textureNombre65;
+                    break;
+                case 70:
+                    textLifeHero = textureNombre70;
+                    break;
+                case 75:    
+                    textLifeHero = textureNombre75;
+                    break;
+                case 80:    
+                    textLifeHero = textureNombre80;
+                    break;
+                case 85:    
+                    textLifeHero = textureNombre85;
+                    break;
+                case 90:   
+                    textLifeHero = textureNombre90;
+                    break;
+                case 95:    
+                    textLifeHero = textureNombre95;
+                    break;
+                case 100:    
+                    textLifeHero = textureNombre100;
+                    break;
+            }
+            scene.drawInfo(prog2D, vaoMap, textLifeHero, -7.5, 10.2, 0.09);
+
+            // Dessin defense Alice
+            GLuint textAttackHero;
+            switch(alice.getAttack()) {
+                case 0:
+                    textAttackHero = textureNombre0;
+                    break;
+                case 5:
+                    textAttackHero = textureNombre5;
+                    break;
+                case 10:
+                    textAttackHero = textureNombre10;
+                    break;
+                case 15:
+                    textAttackHero = textureNombre15;
+                    break;
+                case 20:
+                    textAttackHero = textureNombre20;
+                    break;
+                case 25:
+                    textAttackHero = textureNombre25;
+                    break;
+                case 30:
+                    textAttackHero = textureNombre30;
+                    break;
+                case 35:
+                    textAttackHero = textureNombre35;
+                    break;
+                case 40:
+                    textAttackHero = textureNombre40;
+                    break;
+                case 45:
+                    textAttackHero = textureNombre45;
+                    break;
+                case 50:
+                    textAttackHero = textureNombre50;
+                    break;
+                case 55:
+                    textAttackHero = textureNombre55;
+                    break;
+                case 60:
+                    textAttackHero = textureNombre60;
+                    break;
+                case 65:
+                    textAttackHero = textureNombre65;
+                    break;
+                case 70:
+                    textAttackHero = textureNombre70;
+                    break;
+                case 75:    
+                    textAttackHero = textureNombre75;
+                    break;
+                case 80:    
+                    textAttackHero = textureNombre80;
+                    break;
+                case 85:    
+                    textAttackHero = textureNombre85;
+                    break;
+                case 90:   
+                    textAttackHero = textureNombre90;
+                    break;
+                case 95:    
+                    textAttackHero = textureNombre95;
+                    break;
+                case 100:    
+                    textAttackHero = textureNombre100;
+                    break;
+            }
+            scene.drawInfo(prog2D, vaoMap, textAttackHero, -7.5, 8.9, 0.09);
+
+
+            // Dessin defense Alice
+            GLuint textDefenseHero;
+            switch(alice.getDefense()) {
+                case 0:
+                    textDefenseHero = textureNombre0;
+                    break;
+                case 5:
+                    textDefenseHero = textureNombre5;
+                    break;
+                case 10:
+                    textDefenseHero = textureNombre10;
+                    break;
+                case 15:
+                    textDefenseHero = textureNombre15;
+                    break;
+                case 20:
+                    textDefenseHero = textureNombre20;
+                    break;
+                case 25:
+                    textDefenseHero = textureNombre25;
+                    break;
+                case 30:
+                    textDefenseHero = textureNombre30;
+                    break;
+                case 35:
+                    textDefenseHero = textureNombre35;
+                    break;
+                case 40:
+                    textDefenseHero = textureNombre40;
+                    break;
+                case 45:
+                    textDefenseHero = textureNombre45;
+                    break;
+                case 50:
+                    textDefenseHero = textureNombre50;
+                    break;
+                case 55:
+                    textDefenseHero = textureNombre55;
+                    break;
+                case 60:
+                    textDefenseHero = textureNombre60;
+                    break;
+                case 65:
+                    textDefenseHero = textureNombre65;
+                    break;
+                case 70:
+                    textDefenseHero = textureNombre70;
+                    break;
+                case 75:    
+                    textDefenseHero = textureNombre75;
+                    break;
+                case 80:    
+                    textDefenseHero = textureNombre80;
+                    break;
+                case 85:    
+                    textDefenseHero = textureNombre85;
+                    break;
+                case 90:   
+                    textDefenseHero = textureNombre90;
+                    break;
+                case 95:    
+                    textDefenseHero = textureNombre95;
+                    break;
+                case 100:    
+                    textDefenseHero = textureNombre100;
+                    break;
+            }
+            scene.drawInfo(prog2D, vaoMap, textDefenseHero, -7.5, 7.6, 0.09);
+            
+            // Dessin infos globales
+            scene.drawInfo(prog2D, vaoMap, textureNombreGlobale, -2, 2, 0.4);
+
+
+            // Affichage de cubes sur la carte
+            for(int i = 0; i < scene.sizeY; i++) {
+                for(int j = 0; j < scene.sizeX; j++) {
+
+
+                    // TEST SOL ET CIEL -- MODIFIER TEXTURE
+                    prog3D.m_Program.use();
+                    scene.drawCube(prog3D, cube, viewMatrix, ProjMatrix, MVMatrix, NormalMatrix, vaoCube, textureSol, j, -1, i);
+
+                    prog3D.m_Program.use();
+                    scene.drawCube(prog3D, cube, viewMatrix, ProjMatrix, MVMatrix, NormalMatrix, vaoCube, texturePlafond, j, 2, i);
+
+                    // Si on a un mur, afficher un cube sur la case
+                    if(scene.grid[i][j] == WALL) {
+                        prog3D.m_Program.use();
+
+                        // MUR BAS
+                        scene.drawCube(prog3D, cube, viewMatrix, ProjMatrix, MVMatrix, NormalMatrix, vaoCube, textureMurBas, j, 0, i);
+                        // MUR HAUT -- MODIFIER TEXTURE
+                        scene.drawCube(prog3D, cube, viewMatrix, ProjMatrix, MVMatrix, NormalMatrix, vaoCube, textureMurHaut, j, 1, i);
+
+
+                        // MINI CARTE 
+                        prog2D.m_Program.use();
+                        scene.drawMap(prog2D, vaoMap, textureMurMap, j, i);
+                    }
+                    else if(j == alice.getPosX() && i == alice.getPosY()) {
+                        prog2D.m_Program.use();
+                        scene.drawMap(prog2D, vaoMap, textureHeroMap, j, i);
+                    }
+                    else if(scene.grid[i][j] == ENTER) {
+                        // PORTES HAUT & BAS
+                        prog3D.m_Program.use();
+                        scene.drawCube(prog3D, cube, viewMatrix, ProjMatrix, MVMatrix, NormalMatrix, vaoCube, texturePorteDepartHaut, j, 1, i+1);
+                        scene.drawCube(prog3D, cube, viewMatrix, ProjMatrix, MVMatrix, NormalMatrix, vaoCube, texturePorteDepartBas, j, 0, i+1);
+
+                        // MINI CARTE 
+                        prog2D.m_Program.use();
+                        scene.drawMap(prog2D, vaoMap, texturePorteMap, j, i);
+
+                    }
+                    else if(scene.grid[i][j] == EXIT) {
+                        // PORTES HAUT & BAS
+                        prog3D.m_Program.use();
+                        scene.drawCube(prog3D, cube, viewMatrix, ProjMatrix, MVMatrix, NormalMatrix, vaoCube, texturePorteArriveeHaut, j, 1, i-1);
+                        scene.drawCube(prog3D, cube, viewMatrix, ProjMatrix, MVMatrix, NormalMatrix, vaoCube, texturePorteArriveeBas, j, 0, i-1);
+
+                        // MINI CARTE 
+                        prog2D.m_Program.use();
+                        scene.drawMap(prog2D, vaoMap, texturePorteMap, j, i);
+                    }
+                    else if(scene.grid[i][j] == CORRIDOR) {
+                        prog2D.m_Program.use();
+                        scene.drawMap(prog2D, vaoMap, textureFondMap, j, i);
+                    }
+
+                    if(scene.isTreasure(j, i)) {
+                        prog3D.m_Program.use();
+
+                        GLuint textTreasure;
+                        switch(scene.getTreasure(j, i).getType()) {
+                            case TREASURE_LIFE:
+                                textTreasure = textureTreasureDrinkMe;
+                                break;
+                            case TREASURE_DEFENSE:
+                                textTreasure = textureTreasureHat;
+                                break;
+                            case TREASURE_ATTACK:
+                                textTreasure = textureTreasureClock;
+                                break;
+                            case TREASURE_LEVEL:
+                                textTreasure = textureTreasureKey;
+                                break;
+                            default:
+                                break;
+                        }
+                        prog3D.m_Program.use();
+                        scene.drawTreasure(prog3D, sphere, viewMatrix, ProjMatrix, MVMatrix, NormalMatrix, vaoSphere, textTreasure, j, 0, i, windowManager.getTime()+i);
+
+                    }
+                    if(scene.isMonster(j, i)) {
+                        GLuint textMonster;
+                        switch(scene.getMonster(j, i).getType()) {
+                            case MONSTER_5:
+                                textMonster = textureMonster5;
+                                break;
+                            case MONSTER_7:
+                                textMonster = textureMonster7;
+                                break;
+                            case MONSTER_10:
+                                textMonster = textureMonster10;
+                                break;
+                            case MONSTER_QUEEN:
+                                textMonster = textureMonsterQueen;
+                                break;
+                            case MONSTER_VALET:
+                                textMonster = textureMonsterValet;
+                                break;
+                            default:
+                                break;
+                        }
+                        prog3D.m_Program.use();
+                        scene.drawMonster(prog3D, cube, viewMatrix, ProjMatrix, MVMatrix, NormalMatrix, vaoCube, textMonster, j, 0, i);
+                    
+
+                        if(scene.monsterNextToHero(scene.getMonster(j, i), alice)) {
+                            prog2D.m_Program.use();
+
+                            // Dessin vie Monster
+                            GLuint textLifeMonster;
+                            switch(scene.getMonster(j, i).getLife()) {
+                                case 0:
+                                    textLifeMonster = textureNombre0m;
+                                    break;
+                                case 5:
+                                    textLifeMonster = textureNombre5m;
+                                    break;
+                                case 10:
+                                    textLifeMonster = textureNombre10m;
+                                    break;
+                                case 15:
+                                    textLifeMonster = textureNombre15m;
+                                    break;
+                                case 20:
+                                    textLifeMonster = textureNombre20m;
+                                    break;
+                                case 25:
+                                    textLifeMonster = textureNombre25m;
+                                    break;
+                                case 30:
+                                    textLifeMonster = textureNombre30m;
+                                    break;
+                                case 35:
+                                    textLifeMonster = textureNombre35m;
+                                    break;
+                                case 40:
+                                    textLifeMonster = textureNombre40m;
+                                    break;
+                                case 45:
+                                    textLifeMonster = textureNombre45m;
+                                    break;
+                                case 50:
+                                    textLifeMonster = textureNombre50m;
+                                    break;
+                                case 55:
+                                    textLifeMonster = textureNombre55m;
+                                    break;
+                                case 60:
+                                    textLifeMonster = textureNombre60m;
+                                    break;
+                                case 65:
+                                    textLifeMonster = textureNombre65m;
+                                    break;
+                                case 70:
+                                    textLifeMonster = textureNombre70m;
+                                    break;
+                                case 75:    
+                                    textLifeMonster = textureNombre75m;
+                                    break;
+                                case 80:    
+                                    textLifeMonster = textureNombre80m;
+                                    break;
+                                case 85:    
+                                    textLifeMonster = textureNombre85m;
+                                    break;
+                                case 90:   
+                                    textLifeMonster = textureNombre90m;
+                                    break;
+                                case 95:    
+                                    textLifeMonster = textureNombre95m;
+                                    break;
+                                case 100:    
+                                    textLifeMonster = textureNombre100m;
+                                    break;
+                            }
+                            scene.drawInfo(prog2D, vaoMap, textLifeMonster, -7.5, 4.5, 0.09);
+
+                            
+                            // Dessin infos globales
+                            GLuint textureNombreGlobaleMonstre;
+                            switch (scene.getMonster(j, i).getType()) {
+                                case MONSTER_5:
+                                case MONSTER_7:
+                                case MONSTER_10:
+                                    textureNombreGlobaleMonstre = textureNombreGlobale_soldat;
+                                    break;
+                                case MONSTER_VALET:
+                                    textureNombreGlobaleMonstre = textureNombreGlobale_valet;
+                                    break;
+                                case MONSTER_QUEEN:
+                                    textureNombreGlobaleMonstre = textureNombreGlobale_queen;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            scene.drawInfo(prog2D, vaoMap, textureNombreGlobaleMonstre, -2, 1, 0.4);
+                        }
+
+                    }
+                }
+            } 
+        }
+      
 
 
         // Update the display

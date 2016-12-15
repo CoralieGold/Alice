@@ -1,0 +1,11 @@
+#Alice: level 1
+level2.ppm
+1
+1:14:17:mangeMoi:4:10:Verrou.obj
+6
+1:14:8:carteCoeur:1:15:5:40:montre.obj
+2:18:8:carteTrefle:2:15:5:40:montre.obj
+3:2:10:cartePique:3:15:5:40:montre.obj
+4:5:10:carteCoeur:4:15:5:40:montre.obj
+5:6:15:carteTrefle:1:15:5:40:montre.obj
+6:14:10:cartePique:1:15:5:40:montre.obj

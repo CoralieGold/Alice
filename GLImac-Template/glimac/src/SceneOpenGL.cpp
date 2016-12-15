@@ -1,8 +1,12 @@
-    #include "glimac/SceneOpenGL.hpp"
+#include "glimac/SceneOpenGL.hpp"
 
 
 SceneOpenGL::SceneOpenGL() {
-
+    heroHasWon = false;
+    level = 1;
+    startGame = true;
+    gameOver = false;
+    paused = true;
 }
 
 SceneOpenGL::~SceneOpenGL() {
@@ -37,10 +41,12 @@ bool SceneOpenGL::readLevel(const char * filepath) {
         getline(file, line);
         bool test = readDungeon(line.c_str());
 
+        cout << "J'ai rempli le ppm !" << endl;
+
         // nombre trésors
         getline(file, line);
         nbTreasures = atoi(line.c_str());
-        //cout << nbTreasures << endl;
+        cout << "Tresors " << nbTreasures << endl;
 
         for(unsigned int i = 0; i < nbTreasures; i++) {
             getline(file, line);
@@ -71,112 +77,113 @@ bool SceneOpenGL::readLevel(const char * filepath) {
             line = line.substr(pos+1);
             //cout << "name : " << name << endl;
 
-                    // type
-                    pos = line.find(':');
-                    string type_string = line.substr(0, pos);
-                    line = line.substr(pos+1);
-                    int type = atoi(type_string.c_str());
-                    //cout << "type : " << type << endl;
+            // type
+            pos = line.find(':');
+            string type_string = line.substr(0, pos);
+            line = line.substr(pos+1);
+            int type = atoi(type_string.c_str());
+            //cout << "type : " << type << endl;
 
-                    // Feature
-                    pos = line.find(':');
-                    string feature_string = line.substr(0, pos);
-                    line = line.substr(pos+1);
-                    int feature = atoi(feature_string.c_str());
-                    //cout << "feature : " << type << endl;
+            // Feature
+            pos = line.find(':');
+            string feature_string = line.substr(0, pos);
+            line = line.substr(pos+1);
+            int feature = atoi(feature_string.c_str());
+            //cout << "feature : " << type << endl;
 
-                    // 3D
-                    pos = line.find(':');
-                    string object = line.substr(0, pos);
-                    line = line.substr(pos+1);
-                    //cout << "object 3D : " << object << endl;
+            // 3D
+            pos = line.find(':');
+            string object = line.substr(0, pos);
+            line = line.substr(pos+1);
+            //cout << "object 3D : " << object << endl;
 
-                    treasures.push_back(Treasure(id, posX, posY, name, type, feature, object));
-                    //grid[posY][posX] = 8;
-                    //cout << treasures[0].getId() << " pos : " << treasures[0].getPosX() << " " << treasures[0].getPosY() << endl; 
-                }
+            treasures.push_back(Treasure(id, posX, posY, name, type, feature, object));
+            //grid[posY][posX] = 8;
+            //cout << treasures[0].getId() << " pos : " << treasures[0].getPosX() << " " << treasures[0].getPosY() << endl; 
+        }
 
-                // nombre trésors
-                getline(file, line);
-                nbMonsters = atoi(line.c_str());
-                //cout << nbMonsters << endl;
+        // nombre trésors
+        getline(file, line);
+        nbMonsters = atoi(line.c_str());
+        cout << "Monstres " << nbMonsters << endl;
 
-                for(unsigned int i = 0; i < nbMonsters; i++) {
-                    getline(file, line);
+        for(unsigned int i = 0; i < nbMonsters; i++) {
+            getline(file, line);
 
-                    // Get id
-                    int pos = line.find(':');
-                    string id_string = line.substr(0, pos);
-                    line = line.substr(pos+1);
-                    unsigned int id = atoi(id_string.c_str());
+            // Get id
+            int pos = line.find(':');
+            string id_string = line.substr(0, pos);
+            line = line.substr(pos+1);
+            unsigned int id = atoi(id_string.c_str());
 
-                    // Pos X
-                    pos = line.find(':');
-                    string posX_string = line.substr(0, pos);
-                    line = line.substr(pos+1);
-                    unsigned int posX = atoi(posX_string.c_str());
+            // Pos X
+            pos = line.find(':');
+            string posX_string = line.substr(0, pos);
+            line = line.substr(pos+1);
+            unsigned int posX = atoi(posX_string.c_str());
 
-                    // Pos Y
-                    pos = line.find(':');
-                    string posY_string = line.substr(0, pos);
-                    line = line.substr(pos+1);
-                    unsigned int posY = atoi(posY_string.c_str());
+            // Pos Y
+            pos = line.find(':');
+            string posY_string = line.substr(0, pos);
+            line = line.substr(pos+1);
+            unsigned int posY = atoi(posY_string.c_str());
 
-                    // Name
-                    pos = line.find(':');
-                    string name = line.substr(0, pos);
-                    line = line.substr(pos+1);
+            // Name
+            pos = line.find(':');
+            string name = line.substr(0, pos);
+            line = line.substr(pos+1);
 
-                    // type
-                    pos = line.find(':');
-                    string type = line.substr(0, pos);
-                    line = line.substr(pos+1);
+            // type
+            pos = line.find(':');
+            string type_string = line.substr(0, pos);
+            line = line.substr(pos+1);
+            int type = atoi(type_string.c_str());
 
-                    // Attack
-                    pos = line.find(':');
-                    string attack_string = line.substr(0, pos);
-                    line = line.substr(pos+1);
-                    int attack = atoi(attack_string.c_str());
+            // Attack
+            pos = line.find(':');
+            string attack_string = line.substr(0, pos);
+            line = line.substr(pos+1);
+            int attack = atoi(attack_string.c_str());
 
-                    // Defense
-                    pos = line.find(':');
-                    string defense_string = line.substr(0, pos);
-                    line = line.substr(pos+1);
-                    int defense = atoi(defense_string.c_str());
+            // Defense
+            pos = line.find(':');
+            string defense_string = line.substr(0, pos);
+            line = line.substr(pos+1);
+            int defense = atoi(defense_string.c_str());
 
-                    // Life pts
-                    pos = line.find(':');
-                    string life_string = line.substr(0, pos);
-                    line = line.substr(pos+1);
-                    unsigned int life = atoi(life_string.c_str());
+            // Life pts
+            pos = line.find(':');
+            string life_string = line.substr(0, pos);
+            line = line.substr(pos+1);
+            unsigned int life = atoi(life_string.c_str());
 
-                    // 3D
-                    pos = line.find(':');
-                    string object = line.substr(0, pos);
-                    line = line.substr(pos+1);
+            // 3D
+            pos = line.find(':');
+            string object = line.substr(0, pos);
+            line = line.substr(pos+1);
 
-                    monsters.push_back(new Monster(id, posX, posY, name, type, attack, defense, life, object));
-                    monsters[monsters.size() - 1]->setOrientation(0);
-                    //grid[posY][posX] = 7;
-                }
+            monsters.push_back(new Monster(id, posX, posY, name, type, attack, defense, life, object));
+            monsters[monsters.size() - 1]->setOrientation(0);
+            //grid[posY][posX] = 7;
+        }
 
-                cout << "Carte chargee : " << endl;
+        cout << "Carte chargee : " << endl;
 
-                for(int i = 0; i < sizeY; i++) {
-                    for(int j = 0; j < sizeX; j++) {
-                        cout << grid[i][j];
-                    }
-                    cout << "" << endl;
-                }
-
-                file.close();
-                return true;
+        for(int i = 0; i < sizeY; i++) {
+            for(int j = 0; j < sizeX; j++) {
+                cout << grid[i][j];
             }
-            else
-            {
-                cout << "Impossible de trouver le fichier level.txt" << endl;
-                return false;
-            }
+            cout << "" << endl;
+        }
+
+        file.close();
+        return true;
+    }
+    else
+    {
+        cout << "Impossible de trouver le fichier " << filepath << endl;
+        return false;
+    }
 
 }
 
@@ -207,6 +214,8 @@ bool SceneOpenGL::readDungeon(const char * imagepath){
         sizeX = x;
         sizeY = y;
 
+        cout << "Size " << sizeX << ":" << sizeY << endl;
+
         grid = new int*[sizeX];
         for(int i = 0; i < sizeX; ++i) {
             grid[i] = new int[sizeY];
@@ -225,24 +234,19 @@ bool SceneOpenGL::readDungeon(const char * imagepath){
                 getline(file, r);
                 getline(file, g);
                 getline(file, b);
-                //cout << r << " " << g << " " << b << endl;
                 if(r == "0" && g == "0" && b == "0") value = WALL; // mur
                 else if(r == "255" && g == "255" && b == "255") value = CORRIDOR; // couloir
                 else if(r == "255" && g == "0" && b == "0") value = ENTER; // entree
                 else if(r == "0" && g == "255" && b == "0") value = EXIT; // sortie
                 else if(r == "170" && g == "119" && b == "34") value = DOOR; // porte
                 else value = WALL;
-                //cout << value << endl;
                 grid[i][j] = value;
             }
         }
-
-        //rotateLevel();
-
         return true;
     }
     else {
-        cout << "Impossible de trouver le fichier level.ppm" << endl;
+        cout << "Impossible de trouver le fichier " << fileName << endl;
         return false;
     }
     file.close();
@@ -468,9 +472,13 @@ void SceneOpenGL::deleteMonster(unsigned int id) {
 }
 
 
-/*Monster SceneOpenGL::getMonster(int posX, int posY) {
-
-}*/
+Monster& SceneOpenGL::getMonster(int posX, int posY) {
+    for(unsigned int i = 0; i < monsters.size(); i ++) {
+        if(monsters[i]->getPosX() == posX && monsters[i]->getPosY() == posY) {
+            return *monsters[i];
+        }
+    }
+}
 
 
 bool SceneOpenGL::monsterSeeHero(Monster m, Hero a){
@@ -517,12 +525,29 @@ bool SceneOpenGL::monsterSeeHero(Monster m, Hero a){
 }
 
 bool SceneOpenGL::monsterNextToHero(Monster m, Hero a){
-    if(m.getPosX()+1 == a.getPosX() || m.getPosX()-1 == a.getPosX() || m.getPosY()+1 == a.getPosY() || m.getPosY()-1 == a.getPosY()) {
+    if(((m.getPosX()+1 == a.getPosX()) && (m.getPosY() == a.getPosY())) 
+        || (m.getPosX()-1 == a.getPosX()) && (m.getPosY() == a.getPosY())
+        || (m.getPosY()+1 == a.getPosY()) && (m.getPosX() == a.getPosX())
+        || (m.getPosY()-1 == a.getPosY()) && (m.getPosX() == a.getPosX())) {
         return true;
     }
     else {
         return false;
     }
+}
+
+bool SceneOpenGL::doorExitNextToHero(Hero a) {
+    for(int i = 0; i < sizeY; ++i) {
+        for(int j = 0; j < sizeX; ++j) {
+            if(grid[i][j] == EXIT){
+                if(a.getOrientation() == 0 && a.getPosX() == j && a.getPosY() == i+1){
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+
 }
 
 // Héro attaque le monstre
@@ -538,7 +563,6 @@ unsigned int SceneOpenGL::isAttacked(Monster &m, Hero &h) {
     if(life > 0) return (unsigned int) life;
     else return 0;
 }
-
 
 GLuint SceneOpenGL::createVboCube(Cube &cube) {
     // Creation d'un seul VBO
@@ -582,32 +606,62 @@ GLuint SceneOpenGL::createVboSphere(Sphere &sphere) {
     return vbo;
 }
 
-GLuint SceneOpenGL::createVboObject(Object &object) {
+GLuint SceneOpenGL::createVboFace() {
+    Vertex2DUV map[] = { 
+        Vertex2DUV(glm::vec2(-0.5, -0.5), glm::vec2(0, 1)),
+        Vertex2DUV(glm::vec2(0.5, -0.5), glm::vec2(1, 1)),
+        Vertex2DUV(glm::vec2(0.5, 0.5), glm::vec2(1, 0)),
+        Vertex2DUV(glm::vec2(-0.5, -0.5), glm::vec2(0, 1)),
+        Vertex2DUV(glm::vec2(0.5, 0.5), glm::vec2(1, 0)),
+        Vertex2DUV(glm::vec2(-0.5, 0.5), glm::vec2(0, 0))
+        
+    };
+
+
     // Creation d'un seul VBO
-    GLuint vbo;
-    glGenBuffers(1, &vbo);
+     GLuint vbo;
+     glGenBuffers(1, &vbo);
     // A partir de ce point, la variable vbo contient l'identifiant d'une VBO
 
     /*** Binding du VBO ***/
 
     // Binding d'un VBO sur la cible GL_ARRAY_BUFFER
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     // On peut à présent modifier le VBO en passant par la cible GL_ARRAY_BUFFER
-
     /*** Remplir le VBO ***/
-    // for(unsigned int i = 0; i < object.vertex.size(); i ++) {
-    //     cout << object.vertex[i].position.x << " " << object.vertex[i].position.y << " " 
-    //          << object.vertex[i].position.z << endl;
-    // }
-    glBufferData(GL_ARRAY_BUFFER, object.vertex.size() * sizeof(ShapeVertex), &object.vertex[0], GL_STATIC_DRAW);
+
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(Vertex2DUV), map, GL_STATIC_DRAW);
 
     /*** Débinder le VBO ***/
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-
     return vbo;
 }
 
-void SceneOpenGL::createVao(GLuint vbo) {
+GLuint SceneOpenGL::createVao2D(GLuint vbo) {
+    /*** Création du VAO ***/
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+
+    /*** Binding du vao ***/
+    glBindVertexArray(vao);
+
+    /*** Activation des attributs de vertex ***/
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+
+
+    /** Rebindage **/
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex2DUV), (const GLvoid*) offsetof(Vertex2DUV, positionXY));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex2DUV), (const GLvoid*) offsetof(Vertex2DUV, coordTextUV));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    /*** Débinding du vao ***/
+    glBindVertexArray(0);
+    return vao;
+}
+
+GLuint SceneOpenGL::createVao3D(GLuint vbo) {
     /*** Création du VAO ***/
     GLuint vao;
     glGenVertexArrays(1, &vao);
@@ -633,11 +687,13 @@ void SceneOpenGL::createVao(GLuint vbo) {
 
     /*** Débinding du vao ***/
     glBindVertexArray(0);
+
+    return vao;
 }
 
 GLuint SceneOpenGL::createTexture(const char* imagePath) {
     std::unique_ptr<Image> image = loadImage(imagePath);
-    if(image != NULL) std::cout << "La texture des murs est bien chargée !" << std::endl;
+    if(image == NULL) std::cout << "La texture " << imagePath << " n'a pas pu etre chargee !" << std::endl;
     
     GLuint texture;
     glGenTextures(1, &texture);
@@ -648,4 +704,261 @@ GLuint SceneOpenGL::createTexture(const char* imagePath) {
     glBindTexture(GL_TEXTURE_2D, 0);
 
     return texture;
+}
+
+void SceneOpenGL::drawCube(Program3D &prog, Cube &cube, glm::mat4 viewMatrix, glm::mat4 ProjMatrix, glm::mat4 MVMatrix, glm::mat4 NormalMatrix, GLuint vao, GLuint texture, float x, float y, float z) {
+    glBindVertexArray(vao);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glUniform1i(prog.uWallTexture,0);
+
+    MVMatrix = glm::translate(glm::mat4(1), glm::vec3(x, y, z));
+    MVMatrix = viewMatrix * MVMatrix;
+    glUniformMatrix4fv(prog.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+    glUniformMatrix4fv(prog.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+    glUniformMatrix4fv(prog.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+
+    glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glBindVertexArray(0);
+}
+
+void SceneOpenGL::drawTreasure(Program3D &prog, Sphere &sphere, glm::mat4 viewMatrix, glm::mat4 ProjMatrix, glm::mat4 MVMatrix, glm::mat4 NormalMatrix, GLuint vao, GLuint texture, float x, float y, float z, float r) {
+    glBindVertexArray(vao);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glUniform1i(prog.uWallTexture,0);
+
+    MVMatrix = glm::translate(glm::mat4(1), glm::vec3(x, y, z));
+    MVMatrix = glm::scale(MVMatrix, glm::vec3(0.3, 0.3, 0.3));
+    MVMatrix = glm::rotate(MVMatrix, r, glm::vec3(0, 1, 0));
+    MVMatrix = viewMatrix * MVMatrix;
+    glUniformMatrix4fv(prog.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+    glUniformMatrix4fv(prog.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+    glUniformMatrix4fv(prog.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+
+    glDrawArrays(GL_TRIANGLES, 0, sphere.getVertexCount());
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glBindVertexArray(0);
+}
+
+void SceneOpenGL::drawInfo(Program2D &prog, GLuint vao, GLuint texture, float x, float y, float s) {
+    glBindVertexArray(vao);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glUniform1i(prog.uMapTexture, 0);
+
+    glm::mat3 uModelMatrix = scale(s)*translate(x,y);
+    glUniformMatrix3fv(prog.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glBindVertexArray(0);
+}
+
+void SceneOpenGL::drawMonster(Program3D &prog, Cube &cube, glm::mat4 viewMatrix, glm::mat4 ProjMatrix, glm::mat4 MVMatrix, glm::mat4 NormalMatrix, GLuint vao, GLuint texture, float x, float y, float z) {
+    glBindVertexArray(vao);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glUniform1i(prog.uWallTexture,0);
+
+    MVMatrix = glm::translate(glm::mat4(1), glm::vec3(x, y, z));
+    MVMatrix = glm::scale(MVMatrix, glm::vec3(0.5, 0.5, 0.5));
+    MVMatrix = viewMatrix * MVMatrix;
+    glUniformMatrix4fv(prog.uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+    glUniformMatrix4fv(prog.uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+    glUniformMatrix4fv(prog.uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+
+    glDrawArrays(GL_TRIANGLES, 0, cube.getVertexCount());
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glBindVertexArray(0);
+}
+
+void SceneOpenGL::drawMap(Program2D &prog, GLuint vao, GLuint texture, float x, float y) {
+    glBindVertexArray(vao);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glUniform1i(prog.uMapTexture, 0);
+
+    glm::mat3 uModelMatrix = scale(0.02)*translate(x+20,y+30);
+    glUniformMatrix3fv(prog.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glBindVertexArray(0);
+
+}
+
+void SceneOpenGL::drawStory(Program2D &prog, GLuint vao, GLuint texture) {
+    glBindVertexArray(vao);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glUniform1i(prog.uMapTexture, 0);
+
+    glm::mat3 uModelMatrix = scale(1)*translate(0, 0);
+    glUniformMatrix3fv(prog.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glBindVertexArray(0);
+}
+
+void SceneOpenGL::levelInit(int newLevel, Hero *a) {
+    //monsters.clear();
+    clearMonsters();
+    //treasures.clear();
+    clearTreasures();
+    sizeX = 0;
+    sizeY = 0;
+    grid = NULL;
+
+    int defense;
+    int attaque;
+    unsigned int ptsVie;
+    unsigned int departX = 0;
+    unsigned int departY = 0;
+    string nom;
+    FreeflyCamera camera;
+
+    switch(newLevel) {
+        case 1:
+            if(!readLevel("../GLImac-Template/assets/files/level.txt")) {
+                cout << "Impossible de lancer le niveau !" << endl;
+            }
+            nom = "Alice";
+            defense = 5;
+            attaque = 10;
+            ptsVie = 100;
+
+            departX = findEnterX();
+            departY = findEnterY();
+
+            camera = FreeflyCamera(glm::vec3(departX, 0, departY));
+            a->setHero(departX, departY, nom, attaque, defense, ptsVie, camera, false);
+            findOrientationHero(a, departX, departY);
+            a->getCamera().rotateLeft(a->getOrientation());
+
+            break;
+
+        /*case 2:
+            if(!readLevel("../GLImac-Template/assets/files/level2.txt")) {
+                cout << "Impossible de lancer le niveau !" << endl;
+            }
+            cout << "J'ai lu le level 2 !" << endl;
+            departX = findEnterX();
+            departY = findEnterY();
+            ptsVie = 100;
+
+            camera = FreeflyCamera(glm::vec3(departX, 0, departY));
+
+            a->setHero(departX, departY, a->getName(), a->getAttack(), a->getDefense(), ptsVie, camera, false);
+            findOrientationHero(a, departX, departY);
+            a->getCamera().rotateLeft(a->getOrientation());
+
+            cout << "J'ai modifié les infos d'Alice !" << endl;
+
+            break;
+
+        case 3:
+            if(!readLevel("../GLImac-Template/assets/files/level3.txt")) {
+                cout << "Impossible de lancer le niveau !" << endl;
+            }
+            departX = findEnterX();
+            departY = findEnterY();
+            ptsVie = 100;
+
+            camera = FreeflyCamera(glm::vec3(departX, 0, departY));
+
+            a->setHero(departX, departY, a->getName(), a->getAttack(), a->getDefense(), ptsVie, camera, false);
+            findOrientationHero(a, departX, departY);
+            a->getCamera().rotateLeft(a->getOrientation());
+            break;*/
+
+        default:
+            break;
+    }
+}
+
+unsigned int SceneOpenGL::findEnterX() {
+    int enter = 0;
+    for(int i = 0; i < sizeY; i++) {
+        for(int j = 0; j < sizeX; j++) {
+            if(grid[i][j] == ENTER) {
+                enter = j;
+                cout << "x :" << j << endl;
+            }
+        }
+    }
+    return enter;
+}
+
+unsigned int SceneOpenGL::findEnterY() {
+    int enter = 0;
+    for(int i = 0; i < sizeY; i++) {
+        for(int j = 0; j < sizeX; j++) {
+            if(grid[i][j] == ENTER) {
+                enter = i;
+                cout << "y :" << i << endl;
+            }
+        }
+    }
+    return enter;
+}
+
+void SceneOpenGL::findOrientationHero(Hero *a, unsigned int departX, unsigned int departY) {
+    for(int i = 0; i < sizeY; i++) {
+        for(int j = 0; j < sizeX; j++) {
+            if(j == departX && i == departY) {
+                if(i-1 >= 0) {
+                    if(getGrid()[i-1][j] != WALL) {
+                        a->setOrientation(0);
+                    }  
+                }
+                else if(i+1 < sizeY) {
+                    if(getGrid()[i+1][j] != WALL) {
+                        a->setOrientation(180);
+                    }
+                }
+                else if(j+1 < sizeX) {
+                    if(getGrid()[i][j+1] != WALL) {
+                        a->setOrientation(90);
+                    }
+                }
+                else if(j-1 >= 0) {
+                    if(getGrid()[i][j-1] != WALL) {
+                        a->setOrientation(270);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void SceneOpenGL::clearMonsters() {
+    for (int i = 0; i < monsters.size(); i++) {
+        monsters.erase(monsters.begin());
+
+    }
+}
+
+void SceneOpenGL::clearTreasures() {
+    for (int i = 0; i < treasures.size(); i++) {
+        treasures.erase(treasures.begin());
+
+    }
 }

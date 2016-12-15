@@ -32,7 +32,9 @@ FreeflyCamera Hero::getCamera() const {
 	return camera;
 }
 
-// get inventory
+bool Hero::getHasKey() const {
+	return hasKey;
+}
 
 void Hero::setPosX(const unsigned int &value) {
 	posX = value;
@@ -65,9 +67,11 @@ void Hero::setCamera(const FreeflyCamera &value) {
 	camera = value;
 }
 
-// get inventory
+void Hero::setHasKey(const bool &value) {
+	hasKey = value;
+}
 
-void Hero::setHero(const  unsigned int &posX, const  unsigned int &posY, const  string &name, const int &attack, const int &defense, const unsigned int &life, const  FreeflyCamera &camera) {
+void Hero::setHero(unsigned int posX, unsigned int posY, string name, int attack, int defense, unsigned int &life, FreeflyCamera &camera, bool hasKey) {
 	setPosX(posX);
 	setPosY(posY);
 	setName(name);
@@ -75,10 +79,11 @@ void Hero::setHero(const  unsigned int &posX, const  unsigned int &posY, const  
 	setDefense(defense);
 	setLife(life);
 	setCamera(camera);
+	setHasKey(hasKey);
 }
 
-Hero::Hero(unsigned int &posX, unsigned int &posY, string &name, int &attack, int &defense, unsigned int &life, FreeflyCamera camera) {
-	setHero(posX, posY, name, attack, defense, life, camera);
+Hero::Hero(unsigned int &posX, unsigned int &posY, string &name, int &attack, int &defense, unsigned int &life, FreeflyCamera camera, bool &hasKey) {
+	setHero(posX, posY, name, attack, defense, life, camera, hasKey);
 	orientation = 0;
 }
 
@@ -156,24 +161,29 @@ void Hero::rotateDown() {
 
 void Hero::applyTreasure(Treasure &treasure) {
     switch(treasure.getType()) {
-    	case 1 : // ajoute de la vie
+    	case TREASURE_LIFE : // ajoute de la vie
     		if(life + treasure.getFeature() <= LIFE_MAX)
     			life += treasure.getFeature();
     		else life = LIFE_MAX;
     		break;
 
-    	case 2 : // ajoute de l'attaque
+    	case TREASURE_ATTACK : // ajoute de l'attaque
     		attack += treasure.getFeature();
     		break;
 
-    	case 3 : // ajoute de la défense
+    	case TREASURE_DEFENSE : // ajoute de la défense
     		defense += treasure.getFeature();
     		break;
 
-    	case 4 : // utile pour le niveau
+    	case TREASURE_LEVEL : // utile pour le niveau
+    		hasKey = true;
     		break;
 
     	default :
     		break;
     }
+}
+
+Hero::Hero() {
+
 }

@@ -26,7 +26,7 @@ class Hero
     int getDefense() const;
     unsigned int getLife() const;
     FreeflyCamera getCamera() const;
-    // get inventory
+    bool getHasKey() const;
 
     void setPosX(const unsigned int &value);
     void setPosY(const unsigned int &value);
@@ -36,8 +36,8 @@ class Hero
     void setLife(const unsigned int &value);
     void setName(const string &value);
     void setCamera(const FreeflyCamera &value);
-    // set inventory
-    void setHero(const  unsigned int &posX, const  unsigned int &posY, const  string &name, const int &attack, const int &defense, const unsigned int &life, const FreeflyCamera &camera);
+    void setHasKey(const bool &hasKey);
+    void setHero(unsigned int posX, unsigned int posY, string name, int attack, int defense, unsigned int &life, FreeflyCamera &camera, bool hasKey);
 
 
     void down();
@@ -51,8 +51,9 @@ class Hero
     void applyTreasure(Treasure &treasure);
 
 
-    Hero(unsigned int &posX, unsigned int &posY, string &name, int &attack, int &defense, unsigned int &life, FreeflyCamera camera);
+    Hero(unsigned int &posX, unsigned int &posY, string &name, int &attack, int &defense, unsigned int &life, FreeflyCamera camera, bool &hasKey);
     ~Hero();
+    Hero();
 
     private:
     unsigned int posX;
@@ -64,6 +65,7 @@ class Hero
     unsigned int life;
     int* inventory;
     FreeflyCamera camera;
+    bool hasKey;
 
 
 };

@@ -6,6 +6,12 @@
 
 #IncludeRegexTransform: 
 
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Card.hpp
+vector
+-
+common.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp
+
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Cube.hpp
 vector
 -
@@ -17,6 +23,12 @@ string
 -
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/FreeflyCamera.hpp
+glm.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/glm.hpp
+
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Functions2D.hpp
+common.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp
 glm.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/glm.hpp
 
@@ -46,15 +58,13 @@ FilePath.hpp
 string
 -
 
-/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Object.hpp
-glm.hpp
-/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/glm.hpp
-string
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Program.hpp
+GL/glew.h
 -
-vector
--
-common.hpp
-/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp
+Shader.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Shader.hpp
+FilePath.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/FilePath.hpp
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/SceneOpenGL.hpp
 iostream
@@ -79,6 +89,8 @@ stdlib.h
 -
 time.h
 -
+Program.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Program.hpp
 Treasure.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Treasure.hpp
 Monster.hpp
@@ -89,10 +101,22 @@ Cube.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Cube.hpp
 Sphere.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Sphere.hpp
-Object.hpp
-/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Object.hpp
+Card.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Card.hpp
 Image.hpp
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Image.hpp
+Vertex2DUV.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Vertex2DUV.hpp
+Functions2D.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Functions2D.hpp
+
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Shader.hpp
+GL/glew.h
+-
+string
+-
+FilePath.hpp
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/FilePath.hpp
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Sphere.hpp
 vector
@@ -105,6 +129,8 @@ string
 -
 iostream
 -
+
+/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/Vertex2DUV.hpp
 
 /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/glimac/include/glimac/common.hpp
 GL/glew.h

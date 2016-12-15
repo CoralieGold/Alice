@@ -116,6 +116,30 @@ glimac/fast:
 	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/build
 .PHONY : glimac/fast
 
+src/Card.o: src/Card.cpp.o
+.PHONY : src/Card.o
+
+# target to build an object file
+src/Card.cpp.o:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Card.cpp.o
+.PHONY : src/Card.cpp.o
+
+src/Card.i: src/Card.cpp.i
+.PHONY : src/Card.i
+
+# target to preprocess a source file
+src/Card.cpp.i:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Card.cpp.i
+.PHONY : src/Card.cpp.i
+
+src/Card.s: src/Card.cpp.s
+.PHONY : src/Card.s
+
+# target to generate assembly for a file
+src/Card.cpp.s:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Card.cpp.s
+.PHONY : src/Card.cpp.s
+
 src/Cone.o: src/Cone.cpp.o
 .PHONY : src/Cone.o
 
@@ -211,6 +235,30 @@ src/FreeflyCamera.s: src/FreeflyCamera.cpp.s
 src/FreeflyCamera.cpp.s:
 	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/FreeflyCamera.cpp.s
 .PHONY : src/FreeflyCamera.cpp.s
+
+src/Functions2D.o: src/Functions2D.cpp.o
+.PHONY : src/Functions2D.o
+
+# target to build an object file
+src/Functions2D.cpp.o:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Functions2D.cpp.o
+.PHONY : src/Functions2D.cpp.o
+
+src/Functions2D.i: src/Functions2D.cpp.i
+.PHONY : src/Functions2D.i
+
+# target to preprocess a source file
+src/Functions2D.cpp.i:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Functions2D.cpp.i
+.PHONY : src/Functions2D.cpp.i
+
+src/Functions2D.s: src/Functions2D.cpp.s
+.PHONY : src/Functions2D.s
+
+# target to generate assembly for a file
+src/Functions2D.cpp.s:
+	cd /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Functions2D.cpp.s
+.PHONY : src/Functions2D.cpp.s
 
 src/Geometry.o: src/Geometry.cpp.o
 .PHONY : src/Geometry.o
@@ -557,6 +605,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... glimac"
 	@echo "... rebuild_cache"
+	@echo "... src/Card.o"
+	@echo "... src/Card.i"
+	@echo "... src/Card.s"
 	@echo "... src/Cone.o"
 	@echo "... src/Cone.i"
 	@echo "... src/Cone.s"
@@ -569,6 +620,9 @@ help:
 	@echo "... src/FreeflyCamera.o"
 	@echo "... src/FreeflyCamera.i"
 	@echo "... src/FreeflyCamera.s"
+	@echo "... src/Functions2D.o"
+	@echo "... src/Functions2D.i"
+	@echo "... src/Functions2D.s"
 	@echo "... src/Geometry.o"
 	@echo "... src/Geometry.i"
 	@echo "... src/Geometry.s"

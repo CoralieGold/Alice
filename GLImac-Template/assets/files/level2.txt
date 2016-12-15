@@ -1,7 +1,7 @@
-#Alice returns
+#Alice: level 2
 level2.ppm
 1
-1:10:1:mangeMoi:1:10:Verrou.obj
+1:14:17:mangeMoi:4:10:Verrou.obj
 6
 1:14:8:carteCoeur:1:15:5:40:montre.obj
 2:18:8:carteTrefle:1:15:5:40:montre.obj
