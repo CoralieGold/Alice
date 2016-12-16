@@ -43,102 +43,107 @@ int main(int argc, char** argv) {
     Program2D prog2D(applicationPath);
 
 
-    GLuint textureMurHaut = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/texture_feuilles_haut.jpg");
-    GLuint textureMurBas = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/texture_feuilles_bas.jpg");
-    GLuint texturePorteDepartHaut = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/porte_depart_haut_02.jpg");
-    GLuint texturePorteDepartBas = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/porte_depart_bas_01.jpg");
-    GLuint texturePorteArriveeHaut = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/porte_arrivee_haut_04.jpg");
-    GLuint texturePorteArriveeBas = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/porte_arrivee_bas_03.jpg");
+    GLuint textureMurHaut = scene.createTexture("../GLImac-Template/assets/textures/texture_feuilles_haut.jpg");
+    GLuint textureMurBas = scene.createTexture("../GLImac-Template/assets/textures/texture_feuilles_bas.jpg");
+    GLuint texturePorteDepartHaut = scene.createTexture("../GLImac-Template/assets/textures/porte_depart_haut_02.jpg");
+    GLuint texturePorteDepartBas = scene.createTexture("../GLImac-Template/assets/textures/porte_depart_bas_01.jpg");
+    GLuint texturePorteArriveeHaut = scene.createTexture("../GLImac-Template/assets/textures/porte_arrivee_haut_04.jpg");
+    GLuint texturePorteArriveeBas = scene.createTexture("../GLImac-Template/assets/textures/porte_arrivee_bas_03.jpg");
 
     /** MAP **/
 
     /** Texture mur -- MAP **/
-    GLuint textureMurMap = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/violet_fonce.jpg");
-    GLuint texturePorteMap = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/violet_clair.jpg");
-    GLuint textureHeroMap = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/bleu_clair.jpg");
-    GLuint textureFondMap = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/bleu_fonce.jpg");
+    GLuint textureMurMap = scene.createTexture("../GLImac-Template/assets/textures/violet_fonce.jpg");
+    GLuint texturePorteMap = scene.createTexture("../GLImac-Template/assets/textures/violet_clair.jpg");
+    GLuint textureHeroMap = scene.createTexture("../GLImac-Template/assets/textures/bleu_clair.jpg");
+    GLuint textureFondMap = scene.createTexture("../GLImac-Template/assets/textures/bleu_fonce.jpg");
     /** Texture sol **/
-    GLuint textureSol = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/Sol.png");
+    GLuint textureSol = scene.createTexture("../GLImac-Template/assets/textures/Sol.png");
     /** Texture plafond **/
-    GLuint texturePlafond = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/texture_ciel2.png");
+    GLuint texturePlafond = scene.createTexture("../GLImac-Template/assets/textures/texture_ciel2.png");
   
     /** Texture monstre soldat 5 **/
-    GLuint textureMonster5 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/soldat_carte05_carre-04.jpg");
+    GLuint textureMonster5 = scene.createTexture("../GLImac-Template/assets/textures/soldat_carte05_carre-04.jpg");
     /** Texture monstre soldat 7 **/
-    GLuint textureMonster7 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/soldat_carte07_carre-05.jpg");
+    GLuint textureMonster7 = scene.createTexture("../GLImac-Template/assets/textures/soldat_carte07_carre-05.jpg");
     /** Texture monstre soldat 10 **/
-    GLuint textureMonster10 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/soldat_carte10_carre-06.jpg");
+    GLuint textureMonster10 = scene.createTexture("../GLImac-Template/assets/textures/soldat_carte10_carre-06.jpg");
     /** Texture monstre soldat Queen **/
-    GLuint textureMonsterQueen = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/reine_carte.jpg");
+    GLuint textureMonsterQueen = scene.createTexture("../GLImac-Template/assets/textures/reine_carte.jpg");
     /** Texture monstre soldat Valet **/
-    GLuint textureMonsterValet = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/valet_carte.jpg");
+    GLuint textureMonsterValet = scene.createTexture("../GLImac-Template/assets/textures/valet_carte.jpg");
 
     /** Texture monstre soldat 5 **/
-    GLuint textureTreasureHat = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/chapeau.jpg");
-    GLuint textureTreasureDrinkMe = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/drinkme.jpg");
+    GLuint textureTreasureHat = scene.createTexture("../GLImac-Template/assets/textures/chapeau.jpg");
+    GLuint textureTreasureDrinkMe = scene.createTexture("../GLImac-Template/assets/textures/drinkme.jpg");
     /** Texture monstre soldat Queen **/
-    GLuint textureTreasureKey = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/cle.jpg");
+    GLuint textureTreasureKey = scene.createTexture("../GLImac-Template/assets/textures/cle.jpg");
     /** Texture monstre soldat Valet **/
-    GLuint textureTreasureClock = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/clock.jpg");
+    GLuint textureTreasureClock = scene.createTexture("../GLImac-Template/assets/textures/clock.jpg");
 
     /** CHIFFRES **/
-    GLuint textureNombreGlobale = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/globale.jpg");
-    GLuint textureNombre0 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/0.jpg");
-    GLuint textureNombre5 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/05.jpg");
-    GLuint textureNombre10 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/10.jpg");
-    GLuint textureNombre15 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/15.jpg");
-    GLuint textureNombre20 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/20.jpg");
-    GLuint textureNombre25 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/25.jpg");
-    GLuint textureNombre30 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/30.jpg");
-    GLuint textureNombre35 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/35.jpg");
-    GLuint textureNombre40 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/40.jpg");
-    GLuint textureNombre45 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/45.jpg");
-    GLuint textureNombre50 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/50.jpg");
-    GLuint textureNombre55 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/55.jpg");
-    GLuint textureNombre60 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/60.jpg");
-    GLuint textureNombre65 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/65.jpg");
-    GLuint textureNombre70 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/70.jpg");
-    GLuint textureNombre75 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/75.jpg");
-    GLuint textureNombre80 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/80.jpg");
-    GLuint textureNombre85 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/85.jpg");
-    GLuint textureNombre90 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/90.jpg");
-    GLuint textureNombre95 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/95.jpg");
-    GLuint textureNombre100 = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/100.jpg");
+    GLuint textureNombreGlobale = scene.createTexture("../GLImac-Template/assets/textures/globale.jpg");
+    GLuint textureNombre0 = scene.createTexture("../GLImac-Template/assets/textures/0.jpg");
+    GLuint textureNombre5 = scene.createTexture("../GLImac-Template/assets/textures/05.jpg");
+    GLuint textureNombre10 = scene.createTexture("../GLImac-Template/assets/textures/10.jpg");
+    GLuint textureNombre15 = scene.createTexture("../GLImac-Template/assets/textures/15.jpg");
+    GLuint textureNombre20 = scene.createTexture("../GLImac-Template/assets/textures/20.jpg");
+    GLuint textureNombre25 = scene.createTexture("../GLImac-Template/assets/textures/25.jpg");
+    GLuint textureNombre30 = scene.createTexture("../GLImac-Template/assets/textures/30.jpg");
+    GLuint textureNombre35 = scene.createTexture("../GLImac-Template/assets/textures/35.jpg");
+    GLuint textureNombre40 = scene.createTexture("../GLImac-Template/assets/textures/40.jpg");
+    GLuint textureNombre45 = scene.createTexture("../GLImac-Template/assets/textures/45.jpg");
+    GLuint textureNombre50 = scene.createTexture("../GLImac-Template/assets/textures/50.jpg");
+    GLuint textureNombre55 = scene.createTexture("../GLImac-Template/assets/textures/55.jpg");
+    GLuint textureNombre60 = scene.createTexture("../GLImac-Template/assets/textures/60.jpg");
+    GLuint textureNombre65 = scene.createTexture("../GLImac-Template/assets/textures/65.jpg");
+    GLuint textureNombre70 = scene.createTexture("../GLImac-Template/assets/textures/70.jpg");
+    GLuint textureNombre75 = scene.createTexture("../GLImac-Template/assets/textures/75.jpg");
+    GLuint textureNombre80 = scene.createTexture("../GLImac-Template/assets/textures/80.jpg");
+    GLuint textureNombre85 = scene.createTexture("../GLImac-Template/assets/textures/85.jpg");
+    GLuint textureNombre90 = scene.createTexture("../GLImac-Template/assets/textures/90.jpg");
+    GLuint textureNombre95 = scene.createTexture("../GLImac-Template/assets/textures/95.jpg");
+    GLuint textureNombre100 = scene.createTexture("../GLImac-Template/assets/textures/100.jpg");
 
-    GLuint textureNombreGlobale_soldat = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/soldat.jpg");
-    GLuint textureNombreGlobale_valet = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/valet.jpg");
-    GLuint textureNombreGlobale_queen = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/reine.jpg");
-    GLuint textureNombre0m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m0.jpg");
-    GLuint textureNombre5m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m05.jpg");
-    GLuint textureNombre10m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m10.jpg");
-    GLuint textureNombre15m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m15.jpg");
-    GLuint textureNombre20m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m20.jpg");
-    GLuint textureNombre25m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m25.jpg");
-    GLuint textureNombre30m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m30.jpg");
-    GLuint textureNombre35m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m35.jpg");
-    GLuint textureNombre40m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m40.jpg");
-    GLuint textureNombre45m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m45.jpg");
-    GLuint textureNombre50m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m50.jpg");
-    GLuint textureNombre55m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m55.jpg");
-    GLuint textureNombre60m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m60.jpg");
-    GLuint textureNombre65m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m65.jpg");
-    GLuint textureNombre70m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m70.jpg");
-    GLuint textureNombre75m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m75.jpg");
-    GLuint textureNombre80m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m80.jpg");
-    GLuint textureNombre85m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m85.jpg");
-    GLuint textureNombre90m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m90.jpg");
-    GLuint textureNombre95m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m95.jpg");
-    GLuint textureNombre100m = scene.createTexture("/home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/assets/textures/m100.jpg");
+    GLuint textureNombreGlobale_soldat = scene.createTexture("../GLImac-Template/assets/textures/soldat.jpg");
+    GLuint textureNombreGlobale_valet = scene.createTexture("../GLImac-Template/assets/textures/valet.jpg");
+    GLuint textureNombreGlobale_queen = scene.createTexture("../GLImac-Template/assets/textures/reine.jpg");
+    GLuint textureNombre0m = scene.createTexture("../GLImac-Template/assets/textures/m0.jpg");
+    GLuint textureNombre5m = scene.createTexture("../GLImac-Template/assets/textures/m05.jpg");
+    GLuint textureNombre10m = scene.createTexture("../GLImac-Template/assets/textures/m10.jpg");
+    GLuint textureNombre15m = scene.createTexture("../GLImac-Template/assets/textures/m15.jpg");
+    GLuint textureNombre20m = scene.createTexture("../GLImac-Template/assets/textures/m20.jpg");
+    GLuint textureNombre25m = scene.createTexture("../GLImac-Template/assets/textures/m25.jpg");
+    GLuint textureNombre30m = scene.createTexture("../GLImac-Template/assets/textures/m30.jpg");
+    GLuint textureNombre35m = scene.createTexture("../GLImac-Template/assets/textures/m35.jpg");
+    GLuint textureNombre40m = scene.createTexture("../GLImac-Template/assets/textures/m40.jpg");
+    GLuint textureNombre45m = scene.createTexture("../GLImac-Template/assets/textures/m45.jpg");
+    GLuint textureNombre50m = scene.createTexture("../GLImac-Template/assets/textures/m50.jpg");
+    GLuint textureNombre55m = scene.createTexture("../GLImac-Template/assets/textures/m55.jpg");
+    GLuint textureNombre60m = scene.createTexture("../GLImac-Template/assets/textures/m60.jpg");
+    GLuint textureNombre65m = scene.createTexture("../GLImac-Template/assets/textures/m65.jpg");
+    GLuint textureNombre70m = scene.createTexture("../GLImac-Template/assets/textures/m70.jpg");
+    GLuint textureNombre75m = scene.createTexture("../GLImac-Template/assets/textures/m75.jpg");
+    GLuint textureNombre80m = scene.createTexture("../GLImac-Template/assets/textures/m80.jpg");
+    GLuint textureNombre85m = scene.createTexture("../GLImac-Template/assets/textures/m85.jpg");
+    GLuint textureNombre90m = scene.createTexture("../GLImac-Template/assets/textures/m90.jpg");
+    GLuint textureNombre95m = scene.createTexture("../GLImac-Template/assets/textures/m95.jpg");
+    GLuint textureNombre100m = scene.createTexture("../GLImac-Template/assets/textures/m100.jpg");
 
+    GLuint texturePause = scene.createTexture("../GLImac-Template/assets/textures/pause.jpg");
+
+    /*** INFOS ***/
+    GLuint textureBegin = scene.createTexture("../GLImac-Template/assets/textures/intro.jpg");
+    GLuint textureGameOver = scene.createTexture("../GLImac-Template/assets/textures/game-over.jpg");
+    GLuint textureWon = scene.createTexture("../GLImac-Template/assets/textures/gagne.jpg");
+    GLuint texturePaused = scene.createTexture("../GLImac-Template/assets/textures/play.jpg");
 
     Cube cube(1);
     Sphere sphere(0.25, 16, 32);
-    Card card(0.5);
 
     GLuint vaoCube = scene.createVao3D(scene.createVboCube(cube));
     GLuint vaoSphere = scene.createVao3D(scene.createVboSphere(sphere));
     GLuint vaoMap = scene.createVao2D(scene.createVboFace());
-    GLuint vaoCard = scene.createVao3D(scene.createVboCube(cube));
 
     // activation test profondeur GPU
     glEnable(GL_DEPTH_TEST); 
@@ -169,7 +174,7 @@ int main(int argc, char** argv) {
                     switch(e.key.keysym.sym) {
                         case SDLK_DOWN :
                         case SDLK_s :
-                            if(!scene.startGame && !scene.gameOver && !scene.paused) {
+                            if(!scene.startGame && !scene.gameOver && !scene.paused && !scene.heroHasWon) {
                                 if(scene.canMove(alice.getOrientation(), alice.getPosX(), alice.getPosY(), -1)) {
                                     alice.down();
                                 }
@@ -181,7 +186,7 @@ int main(int argc, char** argv) {
                             break;
                         case SDLK_UP :
                         case SDLK_z :
-                            if(!scene.startGame && !scene.gameOver && !scene.paused) {
+                            if(!scene.startGame && !scene.gameOver && !scene.paused && !scene.heroHasWon) {
                                 if(scene.canMove(alice.getOrientation(), alice.getPosX(), alice.getPosY(), 1)) {
                                     alice.up();
                                 } 
@@ -193,13 +198,13 @@ int main(int argc, char** argv) {
                             break;
                         case SDLK_LEFT :
                         case SDLK_q :
-                            if(!scene.startGame && !scene.gameOver && !scene.paused) {
+                            if(!scene.startGame && !scene.gameOver && !scene.paused && !scene.heroHasWon) {
                                 alice.left();
                             }
                         break;
                         case SDLK_RIGHT:
                         case SDLK_d :
-                            if(!scene.startGame && !scene.gameOver && !scene.paused) {
+                            if(!scene.startGame && !scene.gameOver && !scene.paused && !scene.heroHasWon) {
                                 alice.right();
                             }
                         break;
@@ -208,13 +213,10 @@ int main(int argc, char** argv) {
                 case SDL_MOUSEBUTTONDOWN :
                     switch(e.button.button) {
                         case SDL_BUTTON_LEFT :
-                            if(!scene.startGame && !scene.gameOver && !scene.paused) {
+                            if(!scene.startGame && !scene.gameOver && !scene.paused && !scene.heroHasWon) {
                                 if(scene.doorExitNextToHero(alice)) {
                                     if(alice.getHasKey()) {
-                                        cout << "J'ai gagné !" << endl;
                                         scene.heroHasWon = true;
-                                        /*scene.level++;
-                                        scene.levelInit(scene.level, &alice);*/
                                     }
                                     else {
                                         cout << "You need to find the key..." << endl;
@@ -234,20 +236,32 @@ int main(int argc, char** argv) {
                             }
                             break;
                     }
+                    if(!scene.paused) {
+                        if(e.button.x > 900 && e.button.x < 1080  && e.button.y > 600 && e.button.y < 720) {
+                            scene.paused = true;
+                        }
+                    }
+
                     if(scene.startGame) {
-                        if(e.button.x > -500 && e.button.x < 500 && e.button.y >-500 && e.button.y < 500) {
+                        if(e.button.x > 550 && e.button.x < 900  && e.button.y > 550 && e.button.y < 700) {
                             scene.startGame = false;
                             scene.paused = false;
                         }
                     }
                     if(scene.gameOver) {
-                        if(e.button.x > -500 && e.button.x < 500 && e.button.y >-500 && e.button.y < 500) {
-                            scene.gameOver = false;
+                        if(e.button.x > 150 && e.button.x < 300  && e.button.y > 500 && e.button.y < 700) {
                             scene.paused = false;
+                            done = true;
+                        }
+                    }
+                    if(scene.heroHasWon) {
+                        if(e.button.x > 700 && e.button.x < 1000  && e.button.y > 500 && e.button.y < 700) {
+                            scene.paused = false;
+                            done = true;
                         }
                     }
                     if(scene.paused) {
-                        if(e.button.x > -500 && e.button.x < 500 && e.button.y >-500 && e.button.y < 500) {
+                        if(e.button.x > 500 && e.button.x < 700  && e.button.y > 400 && e.button.y < 700) {
                             scene.paused = false;
                         }
                     }
@@ -262,18 +276,22 @@ int main(int argc, char** argv) {
         timer ++;
         if(timer%MONSTERS_SPEED == 0 && !scene.startGame && !scene.gameOver && !scene.paused) {
             for(unsigned int i = 0; i < scene.getMonsters().size(); i ++) {
+                if(scene.getMonsters()[i]->getType() == MONSTER_QUEEN) scene.getMonsters()[i]->setOrientation(180);
                 if(scene.monsterSeeHero(*scene.getMonsters()[i], alice)) {
                     if(scene.monsterNextToHero(*scene.getMonsters()[i], alice)) {
                         alice.setLife(scene.isAttacked(*scene.getMonsters()[i], alice));
-                        if(alice.getLife() == 0) cout << "Tu es morte :( " << endl;
+                        if(alice.getLife() == 0) {
+                            scene.gameOver = true;
+                            scene.paused = true;
+                        }
                         isHurt = true;
                     }
-                    else {
+                    else if(scene.getMonsters()[i]->getType() != MONSTER_VALET && scene.getMonsters()[i]->getType() != MONSTER_QUEEN)  {
                         scene.getMonsters()[i]->move();
                     }
                     
                 }
-                else {
+                else if(scene.getMonsters()[i]->getType() != MONSTER_VALET && scene.getMonsters()[i]->getType() != MONSTER_QUEEN) {
                     if(scene.canMove(scene.getMonsters()[i]->getOrientation(), scene.getMonsters()[i]->getPosX(), scene.getMonsters()[i]->getPosY(), 1)) {
                         // if(timer%(MONSTERS_SPEED*2) == 0){
                         //     scene.choosePath(* scene.getMonsters()[i]);
@@ -313,11 +331,25 @@ int main(int argc, char** argv) {
 
         if(scene.startGame) {
             prog2D.m_Program.use();
-            scene.drawStory(prog2D, vaoMap, textureNombre0);
+            scene.drawStory(prog2D, vaoMap, textureBegin);
+        }
+        else if(scene.gameOver) {
+            prog2D.m_Program.use();
+            scene.drawStory(prog2D, vaoMap, textureGameOver);
+        }
+        else if(scene.heroHasWon) {
+            prog2D.m_Program.use();
+            scene.drawStory(prog2D, vaoMap, textureWon);
+        }
+        else if(scene.paused && !scene.startGame && !scene.gameOver && !scene.heroHasWon) {
+            prog2D.m_Program.use();
+            scene.drawStory(prog2D, vaoMap, texturePaused);
         }
         else {
             prog2D.m_Program.use();
             
+            scene.drawInfo(prog2D, vaoMap, texturePause, 6.2, -6.2, 0.15);
+
             // Dessin vie Alice
             GLuint textLifeHero;
             switch(alice.getLife()) {
@@ -531,8 +563,8 @@ int main(int argc, char** argv) {
 
 
             // Affichage de cubes sur la carte
-            for(int i = 0; i < scene.sizeY; i++) {
-                for(int j = 0; j < scene.sizeX; j++) {
+            for(int i = 0; i < scene.sizeY; ++i) {
+                for(int j = 0; j < scene.sizeX; ++j) {
 
 
                     // TEST SOL ET CIEL -- MODIFIER TEXTURE

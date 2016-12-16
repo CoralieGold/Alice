@@ -3,7 +3,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/glimac.dir/src/Sphere.cpp.o"
   "CMakeFiles/glimac.dir/src/Geometry.cpp.o"
   "CMakeFiles/glimac.dir/src/Image.cpp.o"
-  "CMakeFiles/glimac.dir/src/Card.cpp.o"
   "CMakeFiles/glimac.dir/src/Face.cpp.o"
   "CMakeFiles/glimac.dir/src/Treasure.cpp.o"
   "CMakeFiles/glimac.dir/src/Cone.cpp.o"
@@ -15,10 +14,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/glimac.dir/src/Shader.cpp.o"
   "CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o"
   "CMakeFiles/glimac.dir/src/Functions2D.cpp.o"
-  "CMakeFiles/glimac.dir/src/Object.cpp.o"
   "CMakeFiles/glimac.dir/src/SceneOpenGL.cpp.o"
   "CMakeFiles/glimac.dir/src/Monster.cpp.o"
-  "CMakeFiles/glimac.dir/src/Text2D.cpp.o"
   "libglimac.pdb"
   "libglimac.a"
 )

@@ -24,7 +24,6 @@
 #include "Hero.hpp"
 #include "Cube.hpp"
 #include "Sphere.hpp"
-#include "Card.hpp"
 #include "Image.hpp"
 #include "Vertex2DUV.hpp"
 #include "Functions2D.hpp"
@@ -35,7 +34,6 @@
 #define CORRIDOR 2
 #define ENTER 3
 #define EXIT 4
-#define DOOR 5
 
 using namespace std;
 using namespace glimac;

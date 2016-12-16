@@ -41,12 +41,9 @@ bool SceneOpenGL::readLevel(const char * filepath) {
         getline(file, line);
         bool test = readDungeon(line.c_str());
 
-        cout << "J'ai rempli le ppm !" << endl;
-
         // nombre trésors
         getline(file, line);
         nbTreasures = atoi(line.c_str());
-        cout << "Tresors " << nbTreasures << endl;
 
         for(unsigned int i = 0; i < nbTreasures; i++) {
             getline(file, line);
@@ -56,7 +53,6 @@ bool SceneOpenGL::readLevel(const char * filepath) {
             string id_string = line.substr(0, pos);
             line = line.substr(pos+1);
             unsigned int id = atoi(id_string.c_str());
-            //cout << "id : " << id << endl;
 
             // Pos X
             pos = line.find(':');
@@ -69,43 +65,35 @@ bool SceneOpenGL::readLevel(const char * filepath) {
             string posY_string = line.substr(0, pos);
             line = line.substr(pos+1);
             unsigned int posY = atoi(posY_string.c_str());
-            //cout << "position tresor : " << posX << " , " << posY << endl;
 
             // Name
             pos = line.find(':');
             string name = line.substr(0, pos);
             line = line.substr(pos+1);
-            //cout << "name : " << name << endl;
 
             // type
             pos = line.find(':');
             string type_string = line.substr(0, pos);
             line = line.substr(pos+1);
             int type = atoi(type_string.c_str());
-            //cout << "type : " << type << endl;
 
             // Feature
             pos = line.find(':');
             string feature_string = line.substr(0, pos);
             line = line.substr(pos+1);
             int feature = atoi(feature_string.c_str());
-            //cout << "feature : " << type << endl;
 
             // 3D
             pos = line.find(':');
             string object = line.substr(0, pos);
             line = line.substr(pos+1);
-            //cout << "object 3D : " << object << endl;
 
             treasures.push_back(Treasure(id, posX, posY, name, type, feature, object));
-            //grid[posY][posX] = 8;
-            //cout << treasures[0].getId() << " pos : " << treasures[0].getPosX() << " " << treasures[0].getPosY() << endl; 
         }
 
         // nombre trésors
         getline(file, line);
         nbMonsters = atoi(line.c_str());
-        cout << "Monstres " << nbMonsters << endl;
 
         for(unsigned int i = 0; i < nbMonsters; i++) {
             getline(file, line);
@@ -164,16 +152,6 @@ bool SceneOpenGL::readLevel(const char * filepath) {
 
             monsters.push_back(new Monster(id, posX, posY, name, type, attack, defense, life, object));
             monsters[monsters.size() - 1]->setOrientation(0);
-            //grid[posY][posX] = 7;
-        }
-
-        cout << "Carte chargee : " << endl;
-
-        for(int i = 0; i < sizeY; i++) {
-            for(int j = 0; j < sizeX; j++) {
-                cout << grid[i][j];
-            }
-            cout << "" << endl;
         }
 
         file.close();
@@ -214,11 +192,9 @@ bool SceneOpenGL::readDungeon(const char * imagepath){
         sizeX = x;
         sizeY = y;
 
-        cout << "Size " << sizeX << ":" << sizeY << endl;
-
-        grid = new int*[sizeX];
-        for(int i = 0; i < sizeX; ++i) {
-            grid[i] = new int[sizeY];
+        grid = new int*[sizeY];
+        for(int i = 0; i < sizeY; ++i) {
+            grid[i] = new int[sizeX];
         }
 
         // 255
@@ -228,18 +204,18 @@ bool SceneOpenGL::readDungeon(const char * imagepath){
         int value;
 
         // map
+
         for(int i = 0; i < sizeY; ++i) {
             for(int j = 0; j < sizeX; ++j) {
             
                 getline(file, r);
                 getline(file, g);
                 getline(file, b);
-                if(r == "0" && g == "0" && b == "0") value = WALL; // mur
-                else if(r == "255" && g == "255" && b == "255") value = CORRIDOR; // couloir
-                else if(r == "255" && g == "0" && b == "0") value = ENTER; // entree
-                else if(r == "0" && g == "255" && b == "0") value = EXIT; // sortie
-                else if(r == "170" && g == "119" && b == "34") value = DOOR; // porte
-                else value = WALL;
+                if(r == "0" && g == "0" && b == "0") value = WALL;
+                else if(r == "255" && g == "255" && b == "255") value = CORRIDOR;
+                else if(r == "255" && g == "0" && b == "0") value = ENTER;
+                else if(r == "0" && g == "255" && b == "0") value = EXIT;
+                else value = CORRIDOR;
                 grid[i][j] = value;
             }
         }
@@ -426,10 +402,8 @@ void SceneOpenGL::choosePath(Monster &m){
 bool SceneOpenGL::isTreasure(int posX, int posY){
     bool exist = false;
     for(unsigned int i = 0; i < treasures.size(); i ++) {
-        //std::cout << treasures[i].getPosX() << ":" << treasures[i].getPosY() << std::endl;
         if(treasures[i].getPosX() == posX && treasures[i].getPosY() == posY) {
             exist = true;
-            //std::cout << treasures[i].getPosX() << ": ok " << treasures[i].getPosY() << std::endl;
         }
     }
     return exist; 
@@ -438,10 +412,8 @@ bool SceneOpenGL::isTreasure(int posX, int posY){
 bool SceneOpenGL::isMonster(int posX, int posY){
     bool exist = false;
     for(unsigned int i = 0; i < monsters.size(); i ++) {
-        //std::cout << treasures[i].getPosX() << ":" << treasures[i].getPosY() << std::endl;
         if(monsters[i]->getPosX() == posX && monsters[i]->getPosY() == posY) {
             exist = true;
-            //std::cout << treasures[i].getPosX() << ": ok " << treasures[i].getPosY() << std::endl;
         }
     }
     return exist; 
@@ -809,7 +781,7 @@ void SceneOpenGL::drawStory(Program2D &prog, GLuint vao, GLuint texture) {
 
     glUniform1i(prog.uMapTexture, 0);
 
-    glm::mat3 uModelMatrix = scale(1)*translate(0, 0);
+    glm::mat3 uModelMatrix = scale(2)*translate(0, 0);
     glUniformMatrix3fv(prog.uModelMatrix, 1, GL_FALSE, glm::value_ptr(uModelMatrix));
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
@@ -841,8 +813,8 @@ void SceneOpenGL::levelInit(int newLevel, Hero *a) {
                 cout << "Impossible de lancer le niveau !" << endl;
             }
             nom = "Alice";
-            defense = 5;
-            attaque = 10;
+            defense = 20;
+            attaque = 20;
             ptsVie = 100;
 
             departX = findEnterX();
@@ -900,7 +872,6 @@ unsigned int SceneOpenGL::findEnterX() {
         for(int j = 0; j < sizeX; j++) {
             if(grid[i][j] == ENTER) {
                 enter = j;
-                cout << "x :" << j << endl;
             }
         }
     }
@@ -913,7 +884,6 @@ unsigned int SceneOpenGL::findEnterY() {
         for(int j = 0; j < sizeX; j++) {
             if(grid[i][j] == ENTER) {
                 enter = i;
-                cout << "y :" << i << endl;
             }
         }
     }

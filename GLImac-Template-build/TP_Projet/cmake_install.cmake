@@ -1,4 +1,4 @@
-# Install script for directory: /home/6im2/mroche/Documents/Projet_Synthese_Image/GLImac-Template/TP_Projet
+# Install script for directory: /home/6im2/areho/Bureau/GLImac-Template/TP_Projet
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

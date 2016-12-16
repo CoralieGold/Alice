@@ -1,4 +1,4 @@
-#Alice: level
+#Alice
 level.ppm
 9
 1:2:3:hat:3:30:Verrou.obj
@@ -11,9 +11,9 @@ level.ppm
 8:25:1:drinkMe:1:100:Verrou.obj
 9:25:18:hat:3:25:Verrou.obj
 5
-1:1:5:cardFive:1:15:5:25:montre.obj
-2:4:15:cardSeven:2:15:10:40:montre.obj
-3:9:7:cardTen:3:15:15:50:montre.obj
+1:1:5:cardFive:1:25:5:25:montre.obj
+2:4:15:cardSeven:2:25:10:40:montre.obj
+3:9:7:cardTen:3:15:25:50:montre.obj
 4:14:1:cardQueen:4:60:60:100:montre.obj
 5:24:12:cardValet:5:40:40:80:montre.obj
 
